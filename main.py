@@ -4,7 +4,7 @@ from Player import Player
 
 #Initialize Board and Player
 
-b = Board(1, '2')
+b = Board(3, '3')
 p1 = Player('One')
 
 def runGame():
@@ -25,7 +25,7 @@ def runGame():
             #continue to the next turn
             continue
 
-        p1.add_score(int(b.pick(row, col)))
+        p1.add_score(b.pick(row, col))
         print(p1.__str__())
 
 runGame()

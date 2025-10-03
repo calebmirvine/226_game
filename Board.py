@@ -12,18 +12,17 @@ class Board:
         :param n: Our board size. n*n in square tiles. Must be > 0
         :param t: Each treasure label must be between 1 and t, inclusive.
         """
-        if type(n)!= int: raise ValueError("n must be an int")
+        if type(n) != int: raise ValueError("n must be an int")
         if n < 2: raise ValueError("n must not be less than 2")
         if not t.isdigit() or int(t) <= 0: raise ValueError("t must be digit greater 0")
         if int(t) <= 0 or int(t) > n: raise ValueError("Treasure t length cant be greater than n board length")
-        if (n * n) < sum([num for num in range(int(t) + 1)]): raise ValueError("Not Enough Board Spaces for t placement")
-
+        if (n * n) < sum([num for num in range(int(t) + 1)]): raise ValueError(
+            "Not Enough Board Spaces for t placement")
 
         self.n = n
         self.t = t
         self.board = [['-' for _ in range(n)] for _ in range(self.n)]
         self.place_treasure()
-
 
     def place_treasure(self):
         """
@@ -34,15 +33,13 @@ class Board:
         :return: void
         """
 
-        treasurecount = int(self.t)
+        treasureCount = int(self.t)
 
         # random direction the treasure will be placed
         directions = {'up': (-1, 0), 'down': (1, 0), 'left': (0, -1), 'right': (0, 1)}
 
-        while treasurecount > 0:
+        while treasureCount > 0:
             placed = False
-
-
             # Keep running till placement is found
             while not placed:
                 row = random.randint(0, self.n - 1)
@@ -55,7 +52,7 @@ class Board:
                 # Counter list that tracks all positions to be filled
                 positions = []
 
-                for _ in range(treasurecount):
+                for _ in range(treasureCount):
                     # """
                     # Avoid going out of bounds by wrapping around
                     # e.g., going left from column 0 wraps to the last column
@@ -65,12 +62,12 @@ class Board:
                     # """
                     if temp_row < 0:
                         temp_row = self.n - 1
-                    elif temp_row >= self.n:
+                    if temp_row >= self.n:
                         temp_row = 0
-
+                    #
                     if temp_col < 0:
                         temp_col = self.n - 1
-                    elif temp_col >= self.n:
+                    if temp_col >= self.n:
                         temp_col = 0
 
                     # If board position is already occupied, break
@@ -86,16 +83,14 @@ class Board:
                     temp_col += direction[1]
 
                 # If we collected all positions equal to label, place the treasure
-                if len(positions) == treasurecount:
-                    # for each position in the list, set the board position to the treasurecount
+                if len(positions) == treasureCount:
+                    # for each position in the list, set the board position to the treasureCount
                     for pos_row, pos_col in positions:
-                        self.board[pos_row][pos_col] = str(treasurecount)
+                        self.board[pos_row][pos_col] = str(treasureCount)
 
                     placed = True
-                    # Decrement treasurecount and proceed with next treasure t label
-                    treasurecount -= 1
-
-
+                    # Decrement treasureCount and proceed with next treasure t label
+                    treasureCount -= 1
 
     def pick(self, row: int, col: int) -> int:
         """
@@ -104,13 +99,19 @@ class Board:
         :return: Applicable value of treasure (if treasure not blank).
         Value equivalent to treasure label
         """
+        if type(row) != int or type(col) != int:
+            raise ValueError("Row and Column must be digits")
+        if row < 0 or row >= self.n or col < 0 or col >= self.n:
+            raise ValueError("Row and Column must be between 0 and n-1")
+
+
         value = self.board[row][col]
         self.board[row][col] = '-'
         if value != '-':
             return int(value)
         else:
+            #Zero points for empty tile
             return 0
-
 
     def __str__(self):
         """
