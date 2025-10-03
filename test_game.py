@@ -73,6 +73,21 @@ def test_board():
     with pytest.raises(ValueError, match="t must be digit greater 0"):
         Board(4, "abc")
 
+@pytest.mark.flaky(15)
+def test_horizontal_placement():
+    b = Board(3, "3")
+
+    for row in b.board:
+        if '3' in row:
+            assert row.count('3') == 3  # Horizontal placement
+
+@pytest.mark.flaky(15)
+def test_vertical_placement():
+    b = Board(3, "3")
+    for col in range(b.n):
+        column_values = [b.board[row][col] for row in range(b.n)]
+        if '3' in column_values:
+            assert column_values.count('3') == 3  # Vertical placement
 
 def test_treasure_placement_case_3x3():
     random.seed(0)
