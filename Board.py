@@ -3,6 +3,7 @@ from functools import reduce
 
 
 class Board:
+
     def __init__(self, n: int, t: str):
         """
         initialize the board, validating n and t raising ValueErrors if invalid
@@ -17,6 +18,7 @@ class Board:
         if not t.isdigit() or int(t) <= 0: raise ValueError("t must be digit greater 0")
         if int(t) <= 0 or int(t) > n: raise ValueError("Treasure t length cant be greater than n board length")
         if (n * n) < sum([num for num in range(int(t) + 1)]): raise ValueError("Not Enough Board Spaces for t placement")
+
         self.n = n
         self.t = t
         self.board = [['-' for _ in range(n)] for _ in range(self.n)]
