@@ -1,5 +1,3 @@
-import struct
-
 import pytest
 from socket import socket, AF_INET, SOCK_STREAM
 from struct import unpack
@@ -12,7 +10,6 @@ from time import sleep
 #
 
 
-BUF_SIZE = 1024
 HOST = '127.0.0.1'
 PORT = 12345
 
@@ -24,11 +21,11 @@ first_run = True
 #
 
 
-def get_data(client: socket) -> bytes:
+def get_data(client: socket, n: int) -> bytes:
     buffer = b''
     size = 0
     print('Client', client.getsockname(), 'waiting for data')
-    while size < BUF_SIZE:
+    while size < n:
         data = client.recv(1)
         size += 1
         if data == b'':
@@ -36,17 +33,15 @@ def get_data(client: socket) -> bytes:
             return buffer
         buffer = buffer + data
 
+    print('Client', client.getsockname(), 'received', buffer.hex(), '(', buffer, ')')
     return buffer
 
 
-def put_data(data: str) -> bytes:
-    client = socket(AF_INET, SOCK_STREAM)
-    client.connect((HOST, PORT))
+def put_data(client: socket, data: str) -> bytes:
     encoded_data = bytes.fromhex(data)
     print('Client', client.getsockname(), 'sending', data, '(', encoded_data.hex(), ')')
     client.sendall(encoded_data)
-    response = get_data(client)
-    client.close()
+    response = get_data(client, 2)
     return response
 
 
@@ -123,34 +118,109 @@ def get_scores(result: bytes) -> int:
     value = unpack('!H', result)[0]
     score1 = (value & 0b11111110000000) >> 7
     score2 = value & 0b1111111
-    assert value & 0b1100000000000000 == 0
-    assert score2 == 0
-    return score1
+    return [score1, score2]
 
 
 def test_invalid_column():
-    reply = put_data('0A')
+    client = socket(AF_INET, SOCK_STREAM)
+    client.connect((HOST, PORT))
+
+    data = get_data(client, 2)
+    name_len = unpack('!H', data)[0]
+    name = get_data(client, name_len).decode()
+    assert name == "One"
+
+    reply = put_data(client, '0A')
     value = unpack('!H', reply)[0]
     assert value == 0b1100000000000000
+    client.close()
 
 
 def test_invalid_row():
-    reply = put_data('A0')
+    client = socket(AF_INET, SOCK_STREAM)
+    client.connect((HOST, PORT))
+
+    data = get_data(client, 2)
+    name_len = unpack('!H', data)[0]
+    name = get_data(client, name_len).decode()
+    assert name == "One"
+
+    reply = put_data(client, 'A0')
     value = unpack('!H', reply)[0]
     assert value == 0b1100000000000000
+    client.close()
 
 
 @pytest.mark.parametrize('execution_number', range(5))
-def test_board(execution_number):
+def test_board_with_one_player(execution_number):
+    scores = 0
+
+    client = socket(AF_INET, SOCK_STREAM)
+    client.connect((HOST, PORT))
+
+    data = get_data(client, 2)
+    name_len = unpack('!H', data)[0]
+    name = get_data(client, name_len).decode()
+    assert name == "One"
+
     for i in range(10):
         for j in range(10):
-            reply = put_data(str(i) + str(j))
+            reply = put_data(client, str(i) + str(j))
             score = get_scores(reply)
-            assert score >= 0
+            assert score[0] >= 0
+            assert score[1] == 0
+            scores = score[0] + score[1]
 
-    assert score == 30
+    assert scores == 30
+
+    put_data(client, "99")
+
+    client.close()
+
+
+@pytest.mark.parametrize('execution_number', range(5))
+def test_board_with_two_players(execution_number):
+    scores = 0
+
+    client1 = socket(AF_INET, SOCK_STREAM)
+    client1.connect((HOST, PORT))
+
+    data = get_data(client1, 2)
+    name_len = unpack('!H', data)[0]
+    name = get_data(client1, name_len).decode()
+    assert name == "One"
+
+    client2 = socket(AF_INET, SOCK_STREAM)
+    client2.connect((HOST, PORT))
+
+    data = get_data(client2, 2)
+    name_len = unpack('!H', data)[0]
+    name = get_data(client2, name_len).decode()
+    assert name == "Two"
+
+    for i in range(10):
+        for j in range(10):
+            if (i + j) % 2 == 0:
+                client = client1
+                c = 0
+                d = 1
+            else:
+                client = client2
+                c = 1
+                d = 0
+            reply = put_data(client, str(i) + str(j))
+            score = get_scores(reply)
+            assert score[c] >= 0
+            assert score[d] >= 0
+            scores = score[0] + score[1]
+
+    assert scores == 30
+
+    put_data(client, "99")
+
+    client1.close()
+    client2.close()
 
 #
 #  DO NOT CHANGE THE CODE ABOVE
 #
-

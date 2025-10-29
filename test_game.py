@@ -84,7 +84,8 @@ def test_horizontal_placement():
 
     for row in b.board:
         if '3' in row:
-            assert row.count('3') == 3  # Horizontal placement
+            # Horizontal placement
+            assert row.count('3') == 3
 
 
 def test_vertical_placement():
@@ -97,7 +98,8 @@ def test_vertical_placement():
     for col in range(b.n):
         column_values = [b.board[row][col] for row in range(b.n)]
         if '3' in column_values:
-            assert column_values.count('3') == 3  # Vertical placement
+            # Vertical placement
+            assert column_values.count('3') == 3
 
 def test_treasure_placement_case_3x3():
     random.seed(0)
@@ -137,7 +139,7 @@ def test_pick():
 
     assert b.pick(0, 0) == 1
     assert b.pick(0, 1) == 2
-    assert b.pick(1, 0) == 0  # empty tile
+    assert b.pick(1, 0) == 0
 
     with pytest.raises(ValueError, match="Row and Column must be digits"):
         Board.pick(b, "a", "a")
