@@ -3,10 +3,9 @@ import random
 
 class Board:
 
-    def __init__(self, n: int = 10, t: str ='4'):
+    def __init__(self, n: int = 10, t: str ='4') -> None:
         """
         initialize the board, validating n and t raising ValueErrors if invalid
-
         Create a board with 2d list comprehension.
 
         :param n: Our board size. n*n in square tiles. Must be > 0:
@@ -16,21 +15,16 @@ class Board:
         if n < 2: raise ValueError("n must not be less than 2")
         if not t.isdigit() or int(t) <= 0: raise ValueError("t must be digit greater 0")
         if int(t) <= 0 or int(t) > n: raise ValueError("Treasure t length cant be greater than n board length")
-        if (n * n) < sum(i * i for i in range(1, int(t) + 1)): raise ValueError("Not Enough Board Spaces for t placement")
 
-        # Convert t to int for ease of use
-        t_int = int(t)
+
         self.n = n
-        self.t = t_int
+        # Convert t to int for ease of use
+        self.t = int(t)
         self.total_treasure = self.get_total_treasure()
-        self.board = [['-' for _ in range(n)] for _ in range    (self.n)]
+        self.board = [['-' for _ in range(n)] for _ in range (self.n)]
         self.place_treasure()
 
     def get_total_treasure(self) -> int:
-        """
-        :param self:
-        :return The total number of treasure pieces on the board:
-        """
         return sum(i * i for i in range(1, int(self.t) + 1))
 
 
@@ -95,7 +89,7 @@ class Board:
         return int(value) if value != '-' else 0
 
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         :return: Spaced out tiles joined with a newline for proper board appearance
         """

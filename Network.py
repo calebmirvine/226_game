@@ -9,19 +9,19 @@ FORMAT_MAP = {
 }
 
 
-def is_empty_buffer(byte) -> bool:
-    return byte == b''
+def is_empty_buffer(byte: str | int | bytes) -> bool:
+    return byte == b'' or byte == ''
 
 def out_of_bounds() -> int:
     return 0b1100000000000000
 
-def byte_segment_to_space(data) -> tuple[int, int]:
+def byte_segment_to_space(data: int) -> tuple[int, int]:
     return ((data & 0b11110000) >> 4), (data & 0b1111)
 
 def score_from_byte(score: int) -> int:
     return (score & 0b1111111) << 7
 
-def byte_to_score(score) -> int:
+def byte_to_score(score: int) -> int:
     return (score >> 7) & 0b1111111
 
 def receive(sc: socket, size: int) -> bytes:
@@ -38,8 +38,8 @@ def receive_decoded_string(sc: socket, flag: str) -> str:
     Receive a string encoded in the specified format.
     Get length of string and decode it. For efficiency
     :param sc:
-    :param flag:
-    :return:
+    :param flag: format flag
+    :return decoded string:
     """
     exp_len = FORMAT_MAP.get(flag)
     recv_len = receive(sc, exp_len)
@@ -53,7 +53,13 @@ def receive_decoded_string(sc: socket, flag: str) -> str:
 
 
 def validate_row_col(row: str | int, col: str | int) -> bool:
-
+    """
+    Row and Column for Board Must be within [0-15] (2 bytes)
+    Accepts both string and integer inputs, returns False for invalid inputs
+    :param row:
+    :param col:
+    :return:
+    """
     try:
         row_int = int(row)
         col_int = int(col)
@@ -63,8 +69,9 @@ def validate_row_col(row: str | int, col: str | int) -> bool:
 
 def send_row_col(sc: socket) -> None:
     """
-    :param sc:
-    :return:
+    Prompt user for Row and Column input, validate, pack and send to server
+    :param sc"
+    :return None:
     """
     while True:
         row = input("Enter Row (0-15): ")
@@ -80,6 +87,13 @@ def send_row_col(sc: socket) -> None:
             continue
 
 def pack_and_send_data(sc: socket, flag: str, data: int) -> None:
+    """
+    Pack integer data with format flag and send through socket
+    :param sc:
+    :param flag:
+    :param data:
+    :return:
+    """
     try:
         packed_data = pack(flag, data)
         sc.sendall(packed_data)
@@ -87,6 +101,14 @@ def pack_and_send_data(sc: socket, flag: str, data: int) -> None:
         raise ValueError(f"Failed to pack and send data: {e}")
 
 def encode_and_send_data(sc: socket, flag: str, data: str) -> None:
+    """
+    Encode string data, send length first then data
+    This sent length is for efficiency
+    :param sc:
+    :param flag: format flag for length
+    :param data: string data to send
+    :return None:
+    """
     try:
         print(len(data))
         pack_and_send_data(sc, flag, len(data))
