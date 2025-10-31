@@ -1,4 +1,5 @@
-from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
+import logging
+from socket import socket
 from struct import unpack, pack
 
 HOST = ''
@@ -8,9 +9,8 @@ FORMAT_MAP = {
     '!B': 1,
 }
 
-
 def is_empty_buffer(byte: str | int | bytes) -> bool:
-    return byte == b'' or byte == ''
+    return byte == b'' or byte == '' or byte == 0
 
 def out_of_bounds() -> int:
     return 0b1100000000000000
@@ -18,11 +18,11 @@ def out_of_bounds() -> int:
 def byte_segment_to_space(data: int) -> tuple[int, int]:
     return ((data & 0b11110000) >> 4), (data & 0b1111)
 
-def score_from_byte(score: int) -> int:
-    return (score & 0b1111111) << 7
+def score_into_byte(score: int) -> int:
+    return score & 0b1111111
 
-def byte_to_score(score: int) -> int:
-    return (score >> 7) & 0b1111111
+def score_from_byte(byte: int) -> int:
+    return (byte & 0b11111110000000) >> 7
 
 def receive(sc: socket, size: int) -> bytes:
     data = b''
@@ -110,7 +110,7 @@ def encode_and_send_data(sc: socket, flag: str, data: str) -> None:
     :return None:
     """
     try:
-        print(len(data))
+        logging.info(len(data))
         pack_and_send_data(sc, flag, len(data))
         sc.sendall(data.encode())
     except Exception as e:

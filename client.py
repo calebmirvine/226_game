@@ -1,7 +1,7 @@
 from socket import socket, AF_INET, SOCK_STREAM
 from struct import unpack
 
-from Network import (
+from network_functions import (
     HOST,
     PORT,
     FORMAT_MAP,
@@ -9,25 +9,30 @@ from Network import (
     receive_decoded_string,
     is_empty_buffer,
     send_row_col,
-    byte_to_score
+    score_from_byte
 )
 
+def client_program() -> None:
+    """
+    Client program that connects to the server, receives player name,
+    and sends row/column picks in a loop, printing the current score after each pick.
+    :return None:
+    """
+    with socket(AF_INET, SOCK_STREAM) as sc:
+        sc.connect((HOST, PORT))
+        with sc:
+            name = receive_decoded_string(sc, '!H')
+            if is_empty_buffer(name):
+                print("Failed to receive player name or closed connection.")
+                sc.close()
+            else:
+                print("Player Name:", name)
+                while True:
+                    send_row_col(sc)
+                    resp = receive(sc, FORMAT_MAP["!H"])
+                    if is_empty_buffer(resp):
+                        print("Empty buffer response...")
+                    score_data = unpack("!H", resp)[0]
+                    print("Your Current Score |", score_from_byte(score_data))
 
-
-with socket(AF_INET, SOCK_STREAM) as sc:
-    sc.connect((HOST, PORT))
-    with sc:
-        name = receive_decoded_string(sc, '!H')
-        if is_empty_buffer(name):
-            print("Failed to receive player name or server closed connection.")
-            sc.close()
-        else:
-            print("Player Name:", name)
-            while True:
-                send_row_col(sc)
-                resp = receive(sc, FORMAT_MAP["!H"])
-                if is_empty_buffer(resp):
-                    print("Server closed connection.")
-                    break
-                t = unpack("!H", resp)[0]
-                print("Current Score: ", byte_to_score(t))
+client_program()

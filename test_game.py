@@ -14,6 +14,9 @@ def test_name():
         Player("   ")
     with pytest.raises(ValueError, match="name must not be empty"):
         Player("")
+    with pytest.raises(ValueError, match="name must be a string"):
+        Player(None)
+
 
 
 def test_player_scores():
@@ -75,31 +78,20 @@ def test_board():
 
 
 def test_horizontal_placement():
-    b = Board(3, "3")
-    b.board = [
-        ['1', '-', '2'],
-        ['3', '3', '3'],
-        ['-', '-', '2'],
-    ]
-
-    for row in b.board:
-        if '3' in row:
-            # Horizontal placement
-            assert row.count('3') == 3
+    for _ in range(50):
+        t = '3'
+        b = Board(3, t)
+        treasure_count = sum(1 for row in b.board for cell in row if cell == t)
+        assert treasure_count == int(t)
 
 
 def test_vertical_placement():
-    b = Board(2, "2")
-    b.board = [
-        ['1', '-', '3'],
-        ['2', '2', '3'],
-        ['-', '-', '3'],
-    ]
-    for col in range(b.n):
-        column_values = [b.board[row][col] for row in range(b.n)]
-        if '3' in column_values:
-            # Vertical placement
-            assert column_values.count('3') == 3
+    for _ in range(100):
+        t = '4'
+        b = Board(5, t)
+        treasure_count = sum(1 for row in b.board for cell in row if cell == t)
+        assert treasure_count == int(t)
+
 
 def test_treasure_placement_case_3x3():
     random.seed(0)

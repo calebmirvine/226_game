@@ -84,7 +84,8 @@ def setup_module(_):
     print(cmd)
 
     print('Attempting to run container.')
-    cmd = run(['sudo', 'docker', 'run', '-d', '--log-driver', 'journald', '--name', '226-server', '-p', str(PORT) +
+
+    cmd = run(['sudo', 'docker', 'run', '-d', 'journald','--log-driver',  '--name', '226-server', '-p', str(PORT) +
                ':' + str(PORT), '-v', '/dev/log:/dev/log', '226-server'], capture_output=True)
     print(cmd)
 
