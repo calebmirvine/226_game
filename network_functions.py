@@ -18,15 +18,9 @@ def out_of_bounds() -> int:
 def byte_segment_to_space(data: int) -> tuple[int, int]:
     return ((data & 0b11110000) >> 4), (data & 0b1111)
 
-def score_into_byte(score: int) -> int:
-    return score & 0b1111111
+def get_player_scores(byte: int) -> tuple[int, int]:
+    return (byte & 0b11111110000000) >> 7, byte & 0b1111111
 
-def get_player1_score(byte: int) -> int:
-    return (byte & 0b11111110000000) >> 7
-
-
-def get_player2_score(byte: int) -> int:
-    return byte & 0b1111111
 
 def receive(sc: socket, size: int) -> bytes:
     data = b''

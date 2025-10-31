@@ -35,9 +35,6 @@ def client_program() -> None:
                     if is_empty_buffer(resp):
                         print("Empty buffer response...")
                     score_data = unpack("!H", resp)[0]
-                    if name == "One":
-                        print("Your Current Score |", get_player1_score(score_data))
-                    elif name == "Two":
-                        print("Your Current Score |", get_player2_score(score_data))
+                    print(f"Player 1 Score: {get_player1_score(score_data)} || Player 2 Score: {get_player2_score(score_data)}")
 
 client_program()
