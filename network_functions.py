@@ -10,22 +10,53 @@ FORMAT_MAP = {
 }
 
 def is_empty_buffer(byte: str | int | bytes) -> bool:
+    """
+    checks if bit str, int, or byte is empty
+    :param byte:
+    :return bool true if empty else false:
+    """
     return byte == b'' or byte == '' or byte == 0
 
 def out_of_bounds() -> int:
+    """
+    Sets the first two bits to indicate out of bounds in board
+    :return int:
+    """
     return 0b1100000000000000
 
 def byte_segment_to_space(data: int) -> tuple[int, int]:
+    """
+    Gets the row & column choice
+    Row being first 4 bits, col is the last 4 bits
+    :param data:
+    :return:
+    """
     return ((data & 0b11110000) >> 4), (data & 0b1111)
 
 def score_into_byte(score: int) -> int:
+    """
+    bit mask score into the first 7 bits
+    :param score:
+    :return:
+    """
     return score & 0b1111111
 
-def get_player_scores(byte: int) -> tuple[int, int]:
-    return (byte & 0b11111110000000) >> 7, byte & 0b1111111
+def get_player_scores(num: int) -> tuple[int, int]:
+    """
+    Get the player data from first 7 bits, and the second player data from the latter.
+    :param num:
+    :return tuple int, int:
+    """
+    return (num & 0b11111110000000) >> 7, num & 0b1111111
 
 
 def receive(sc: socket, size: int) -> bytes:
+    """
+    Receive data from socket, while avoiding buffer overflow
+    :param sc socket:
+    :param size size of data:
+    :return bytes packed:
+    """
     data = b''
     while len(data) < size:
         curr_data = sc.recv(size - len(data))
@@ -59,7 +90,7 @@ def validate_row_col(row: str | int, col: str | int) -> bool:
     Accepts both string and integer inputs, returns False for invalid inputs
     :param row:
     :param col:
-    :return:
+    :return bool:
     """
     try:
         row_int = int(row)
@@ -93,7 +124,7 @@ def pack_and_send_data(sc: socket, flag: str, data: int) -> None:
     :param sc:
     :param flag:
     :param data:
-    :return:
+    :return None:
     """
     try:
         packed_data = pack(flag, data)
