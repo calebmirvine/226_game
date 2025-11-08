@@ -148,7 +148,7 @@ async def game_server(reader: StreamReader, writer: StreamWriter) -> None:
     :raises: ValueError if player creation fails
     :raises: ValueError if server is full (no more player names available)
     """
-    global ACTIVE_PLAYERS, CLIENT_COUNTER
+    global CLIENT_COUNTER
 
     if len(PLAYER_NAMES) == 0: raise ValueError("No player names available to assign")
 
