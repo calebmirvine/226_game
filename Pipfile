@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 pytest = "*"
 coverage = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+django = "*"
 
 [dev-packages]
 flaky = "*"
