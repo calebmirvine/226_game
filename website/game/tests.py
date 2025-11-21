@@ -25,8 +25,8 @@ class BoardCreationTests(TestCase):
         DEFAULT_BOARD_SIZE is set in constants.py and is 10 by default.
         10x10 = 100 tiles.
         """
-        response = self.client.get('/game/create')
-        self.assertRedirects(response, "/game")
+        response = self.client.get('/game/create', follow=True)
+        self.assertRedirects(response, "/game/", 302, 200, fetch_redirect_response=True)
         self.assertEqual(Tile.objects.count(), DEFAULT_BOARD_SIZE * DEFAULT_BOARD_SIZE, f'Expected {DEFAULT_BOARD_SIZE * DEFAULT_BOARD_SIZE} tiles, but found {Tile.objects.count()}')
 
     def test_treasure_count(self):
@@ -34,8 +34,8 @@ class BoardCreationTests(TestCase):
         Tests that the correct number of each treasure value is placed on the board.
         Should have 4 tiles with value '4', 3 tiles with value '3', etc.
         """
-        response = self.client.get('/game/create')
-        self.assertRedirects(response, "/game")
+        response = self.client.get('/game/create', follow=True)
+        self.assertRedirects(response, "/game/", 302, 200, fetch_redirect_response=True)
 
         # Count occurrences of each treasure value
         for expected_count in range(1, DEFAULT_TREASURE_COUNT + 1):
@@ -48,8 +48,8 @@ class BoardCreationTests(TestCase):
         Asserts that the correct number of players are created when the board is created.
         MAX_PLAYERS is set in constants.py and is 2 by default.
         """
-        response = self.client.get('/game/create')
-        self.assertRedirects(response, "/game")
+        response = self.client.get('/game/create', follow=True)
+        self.assertRedirects(response, "/game/", 302, 200, fetch_redirect_response=True)
         [self.assertIn(player.name, [PLAYER_1, PLAYER_2]) for player in Player.objects.all()]
         self.assertEqual(Player.objects.count(), MAX_PLAYERS, f'Expected {MAX_PLAYERS} players, but found {Player.objects.count()}')
 
@@ -58,8 +58,8 @@ class BoardCreationTests(TestCase):
         Asserts that all players start with the correct starting score.
         PLAYER_STARTING_SCORE is set in constants.py and is 0 by default.
         """
-        response = self.client.get('/game/create')
-        self.assertRedirects(response, "/game")
+        response = self.client.get('/game/create', follow=True)
+        self.assertRedirects(response, "/game/", 302, 200, fetch_redirect_response=True)
         [self.assertEqual(player.score, PLAYER_STARTING_SCORE) for player in Player.objects.all()]
 
     def test_board_creation_idempotent(self):
@@ -93,8 +93,8 @@ class GameplayTests(TestCase):
         """
         Test that picking an empty tile doesn't change the tile value.
         """
-        response = self.client.get('/game/create')
-        self.assertRedirects(response, "/game")
+        response = self.client.get('/game/create', follow=True)
+        self.assertRedirects(response, "/game/", 302, 200, fetch_redirect_response=True)
         tile = Tile.objects.get(row=MIN_BOARD_SIZE, col=MIN_BOARD_SIZE)
         tile.value = DEFAULT_TILE
         tile.save()
@@ -106,8 +106,8 @@ class GameplayTests(TestCase):
         """
         Test that picking a treasure tile increases the player's score.
         """
-        response = self.client.get('/game/create')
-        self.assertRedirects(response, "/game")
+        response = self.client.get('/game/create', follow=True)
+        self.assertRedirects(response, "/game/", 302, 200, fetch_redirect_response=True)
         tile = Tile.objects.get(row=MIN_BOARD_SIZE, col=MIN_BOARD_SIZE)
         tile.value = '4'
         tile.save()
