@@ -9,6 +9,9 @@ coverage = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 django = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
 
 [dev-packages]
 flaky = "*"
