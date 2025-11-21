@@ -1,0 +1,87 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator, MinValueValidator
+from django.db import models
+from .constants import (
+    MIN_BOARD_SIZE,
+    DEFAULT_BOARD_SIZE,
+    MAX_PLAYERS,
+    PLAYER_STARTING_SCORE,
+    DEFAULT_TILE,
+    MAX_PLAYER_NAME_LENGTH,
+    MAX_TILE_LENGTH,
+)
+from .messages import ErrorMessages
+
+
+#====Tile specific validation functions====
+def validate_col_range(value):
+    if value < MIN_BOARD_SIZE or value > DEFAULT_BOARD_SIZE:
+        raise ValidationError(ErrorMessages.COL_OUT_OF_RANGE, code='col_out_of_range')
+
+def validate_row_range(value):
+    if value < MIN_BOARD_SIZE or value > DEFAULT_BOARD_SIZE:
+        raise ValidationError(ErrorMessages.ROW_OUT_OF_RANGE, code='row_out_of_range')
+
+def validate_tile_char_length(value):
+    if len(value) > MAX_TILE_LENGTH:
+        raise ValidationError(ErrorMessages.TILE_LONG, code='tile_length')
+
+#====Player specific validation functions====
+def validate_unique_name(value):
+    players = Player.objects.filter(name=value)
+    if len(players) != 0:
+        raise ValidationError(ErrorMessages.DUPE_NAME, code='duplicate')
+
+def validate_player_name_chars(value):
+    RegexValidator(r'^[A-Za-z0-9_]+$', ErrorMessages.BAD_NAME_CHARS, code='invalid_chars')(value)
+
+def validate_max_players(value):
+    players = Player.objects.all()
+    if len(players) >= MAX_PLAYERS:
+        raise ValidationError(ErrorMessages.TOO_MANY_PLAYERS, code='max_players')
+
+def validate_player_name_length(value):
+    if len(value) > MAX_PLAYER_NAME_LENGTH:
+        raise ValidationError(ErrorMessages.NAME_LONG, code='name_length')
+
+
+
+class Tile(models.Model):
+    row = models.IntegerField(validators=[
+        validate_row_range,
+        MinValueValidator(MIN_BOARD_SIZE)
+    ])
+    col = models.IntegerField(validators=[
+        validate_col_range,
+        MinValueValidator(MIN_BOARD_SIZE)
+    ])
+    value = models.CharField(max_length=MAX_TILE_LENGTH, default=DEFAULT_TILE)
+
+    #Defines the default ordering for query sets.
+    class Meta:
+        unique_together = ['row', 'col']
+
+    @classmethod
+    def create_tile(cls, row, col, value):
+        model = cls(row=row, col=col, value=value)
+        return model
+
+    def __str__(self):
+        return f'Row: {self.row}, Col: {self.col} | Value: {self.value}'
+
+class Player(models.Model):
+    name = models.CharField(max_length=MAX_PLAYER_NAME_LENGTH, unique=True, validators=[
+        validate_player_name_length,
+        validate_unique_name,
+        validate_player_name_chars,
+        validate_max_players,
+    ])
+    score = models.IntegerField(default=PLAYER_STARTING_SCORE, editable=False)
+
+    @classmethod
+    def create_player(cls, name, score):
+        model = cls(name=name, score=score)
+        return model
+
+    def __str__(self):
+        return f'Player: {self.name} | Score: {self.score}'
