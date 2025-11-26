@@ -18,5 +18,5 @@ whitenoise = "*"
 flaky = "*"
 
 [requires]
-python_version = "3.13"
-python_full_version = "3.13.7"
+python_version = "3.12"
+python_full_version = "3.12.3"
