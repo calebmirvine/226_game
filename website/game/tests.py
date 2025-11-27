@@ -2,7 +2,7 @@ from django.test import TestCase
 
 # Create your tests here.
 from .models import Tile, Player
-from .constants import (
+from game.constants.constants import (
     MIN_BOARD_SIZE,
     DEFAULT_BOARD_SIZE,
     MAX_PLAYERS,
@@ -13,7 +13,7 @@ from .constants import (
     PLAYER_2,
     PICKED_TILE
 )
-from .messages import ErrorMessages
+from game.constants.messages import ErrorMessages
 
 
 class BoardCreationTests(TestCase):

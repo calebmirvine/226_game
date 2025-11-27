@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - 226 Game</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>226 Game</h1>
+            <p>404 - Page Not Found</p>
+        </header>
+
+        <main>
+            <div class="panel text-center" style="max-width: 600px; margin: 40px auto;">
+                <h2 style="color: #c62828; margin-bottom: 20px;">Sorry...</h2>
+                <p style="font-size: 1.2em; margin-bottom: 30px;">{{ message }}</p>
+                
+                <a href="{% url 'game' %}" class="btn">
+                    <span>Return to Game</span>
+                </a>
+            </div>
+        </main>
+
+        <footer class="text-center mt-2">
+            <p><small>ICS 226 - Network Programming</small></p>
+        </footer>
+    </div>
+</body>
+</html>

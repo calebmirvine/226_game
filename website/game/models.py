@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, MinValueValidator
 from django.db import models
-from .constants import (
+from game.constants.constants import (
     MIN_BOARD_SIZE,
     DEFAULT_BOARD_SIZE,
     MAX_PLAYERS,
@@ -10,7 +10,7 @@ from .constants import (
     MAX_PLAYER_NAME_LENGTH,
     MAX_TILE_LENGTH,
 )
-from .messages import ErrorMessages
+from game.constants.messages import ErrorMessages
 
 
 #====Tile specific validation functions====

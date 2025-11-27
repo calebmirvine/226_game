@@ -1,10 +1,10 @@
 # code taken from https://github.com/beeware/toga/tree/main/examples/positron-django
 import asyncio
 import os
-import shutil
 import socketserver
 from threading import Thread
 from wsgiref.simple_server import WSGIServer
+
 
 import django
 from django.core import management as django_manage
@@ -21,11 +21,17 @@ from toga.style.pack import CENTER, COLUMN, ROW
 class ThreadedWSGIServer(socketserver.ThreadingMixIn, WSGIServer):
     pass
 
-#
+
 class Game(toga.App):
-    def web_server(self):
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings")
-        django.setup(set_prefix=False)
+
+    def web_server(self) -> None:
+        """
+        This function starts a web server to serve the Django application.
+        It sets up the Django environment, applies migrations, and starts the server.
+        """
+        try:
+            os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings")
+            django.setup(set_prefix=False)
 
         # self.paths.data.mkdir(exist_ok=True)
         # user_db = self.paths.data / "db.sqlite3"
@@ -40,30 +46,41 @@ class Game(toga.App):
         #         print("No initial database.")
 
 
-        print("Applying database migrations...")
-        django_manage.call_command("migrate")
+            print("Applying database migrations...")
+            django_manage.call_command("migrate")
 
-        print("Starting server...")
-        # Use port 0 to let the server select an available port.
-        self._httpd = ThreadedWSGIServer(("127.0.0.1", 0), WSGIRequestHandler)
-        self._httpd.daemon_threads = True
+            print("Starting server...")
+            # Use port 0 to let the server select an available port.
+            self._httpd = ThreadedWSGIServer(("127.0.0.1", 0), WSGIRequestHandler)
+            self._httpd.daemon_threads = True
 
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings")
+            os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings")
 
-        wsgi_handler = WSGIHandler()
-        self._httpd.set_app(wsgi_handler)
+            wsgi_handler = WSGIHandler()
+            #Wrap the handler in static files handler (for our css)
+            self._httpd.set_app(StaticFilesHandler(wsgi_handler))
 
-        # The server is now listening, but connections will block until
-        # serve_forever is run.
-        self.loop.call_soon_threadsafe(self.server_exists.set_result, "ready")
-        self._httpd.serve_forever()
+            # The server is now listening, but connections will block until serve_forever is run.
+            self.loop.call_soon_threadsafe(self.server_exists.set_result, "ready")
+            self._httpd.serve_forever()
+        except Exception as e:
+            print(f"Error starting server: {e}")
+            import traceback
+            traceback.print_exc()
 
-    def cleanup(self, app, **kwargs):
+    def cleanup(self, app: toga.App) -> None:
+        """
+        This function shuts down the web server.
+        """
         print("Shutting down...")
         self._httpd.shutdown()
         return True
 
-    def startup(self):
+    def startup(self) -> None:
+        """
+        This function starts the web server and creates the main window.
+        It also creates the URL bar and the web view.
+        """
         self.server_exists = asyncio.Future()
 
         self.web_view = toga.WebView()
@@ -73,12 +90,8 @@ class Game(toga.App):
 
         self.on_exit = self.cleanup
 
-        host, port = self._httpd.socket.getsockname()
-        initial_url = f"http://{host}:{port}/"
-        self.web_view.url = initial_url
-
-        # Create URL bar
-        self.url_input = toga.TextInput(value=initial_url, style=Pack(flex=1))
+        # Create URL bar (To allow  search to access certain game functionality)
+        self.url_input = toga.TextInput(value="Starting server...", style=Pack(flex=1))
         self.go_button = toga.Button("Go", on_press=self.load_url, style=Pack(width=50, padding_left=5))
         url_box = toga.Box(
             children=[self.url_input, self.go_button],
@@ -93,19 +106,33 @@ class Game(toga.App):
             style=Pack(direction=COLUMN)
         )
 
-        # Create and show the main window
+
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
         self.main_window.show()
 
-    async def on_running(self):
+    def load_url(self, widget) -> None:
+        """
+        This function loads the URL in the web view.
+        """
+        self.web_view.url = self.url_input.value
+
+    async def on_running(self) -> None:
+        """
+        This function runs when the app is running.
+        """
         await self.server_exists
 
         host, port = self._httpd.socket.getsockname()
-        self.web_view.url = f"http://{host}:{port}/"
+        url = f"http://{host}:{port}/game/"
+        self.web_view.url = url
+        self.url_input.value = url
 
         self.main_window.show()
 
 
-def main():
+def main() -> toga.App:
+    """
+    This function returns the app.
+    """
     return Game("Treasure Hunt Board Game")

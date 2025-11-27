@@ -4,141 +4,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Board - Treasure Hunt</title>
+    <title>Game Board - 226 Game</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'assets/icon.png' %}"/>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="{% static 'game_styles.css' %}">
+
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header>
-            <h1 class="aqua-title">
-                <span class="title-text">
-                    Treasure Board Game
-                </span>
-            </h1>
-            <p>Find the treasures on the board!</p>
+            <h1>226 Game</h1>
         </header>
+
+        <!-- Main -->
         <main>
-    <div class="aqua-game-wrapper">
-    <!-- Top Control Bar -->
-    <div class="aqua-control-bar">
-        <div class="control-section">
-            <label for="current-player">Active Player:</label>
-            <select id="current-player" class="aqua-select">
-                {% for player in player_list %}
-                    <option value="{{ player.name }}">{{ player.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <a href="{% url 'create' %}" class="aqua-btn primary">
-            <span>New Game</span>
-        </a>
-    </div>
 
-    <!-- Main Game Area -->
-    <div class="aqua-game-main">
-        <!-- Left: Scoreboard -->
-        <div class="aqua-panel scoreboard-panel">
-            <div class="panel-header">
-                <h3>Scoreboard</h3>
-            </div>
-            <div class="panel-content">
-                {% if player_list %}
-                    <div class="score-list">
+            <!-- Control Bar -->
+            <div class="control-bar">
+                <div>
+                    <label for="current-player">Player:</label>
+                    <select id="current-player">
+                        <!-- Player List in the select element -->
                         {% for player in player_list %}
-                            <div class="score-item">
-                                <div class="score-player">
-                                    <span class="player-badge">P.</span>
-                                    <span class="player-name">{{ player.name }}</span>
-                                </div>
-                                <div class="score-points">
-                                    <span class="points-value">{{ player.score  }}</span>
-                                    <span class="points-label">pts</span>
-                                </div>
-                            </div>
+                            <option value="{{ player.name }}">{{ player.name }}</option>
                         {% endfor %}
-                    </div>
-                {% else %}
-                    <p class="no-content">No players available.</p>
-                {% endif %}
+                    </select>
+                </div>
+                <!-- New Game Button -->
+                <a href="{% url 'create' %}" class="btn">New Game</a>
             </div>
-        </div>
 
-        <!-- Center: Game Board -->
-        <div class="aqua-panel board-panel">
-            <div class="panel-header">
-                <h3>Treasure Map</h3>
-            </div>
-            <div class="panel-content board-content">
-                {% if board %}
-                    <div class="aqua-board-wrapper">
-                        <table class="board-with-coords">
-                            <tr>
-                                <td class="coord-corner"></td>
-                                {% for col in board %}
-                                    <td class="coord-header">{{ forloop.counter0 }}</td>
-                                {% endfor %}
-                            </tr>
-                            {% for row in board %}
+            <!-- Game Layout -->
+            <div class="game-layout">
+                <!-- Scoreboard -->
+                <div class="panel scoreboard-panel">
+                    <h3>Scores</h3>
+                    <!-- Player List in the scoreboard panel -->
+                    {% for player in player_list %}
+                        <div class="score-item">
+                            <span>{{ player.name }}</span>
+                            <span class="score-val">{{ player.score }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Board -->
+                <div class="panel board-panel">
+                    <div class="game-message">
+                        <p>{{ game_message }}</p>
+                    </div>
+                    <div class="board-wrapper">
+                        <!-- Board Table -->
+                        {% if board %}
+                            <table class="board">
                                 <tr>
-                                    <td class="coord-header">{{ forloop.counter0 }}</td>
-                                    {% for tile in row %}
-                                        {% if tile %}
-                                            <td class="board-tile
-                                                {% if tile.value == 'X' %}
-                                                    picked
-                                                {% endif %}"
-                                                data-row="{{ tile.row }}"
-                                                data-col="{{ tile.col }}"
-                                                data-value="{{ tile.value }}"
-                                            >
-                                                <span>{{ tile.value }}</span>
-                                            </td>
-                                        {% else %}
-                                            <td class="board-tile"><span>_</span></td>
-                                        {% endif %}
+                                    <td class="coord-corner"></td>
+                                    <!-- Column Headers -->
+                                    {% for col in board %}
+                                        <!-- For loop counter just for the coordinate header -->
+                                        <td class="coord-header">{{ forloop.counter0 }}</td>
                                     {% endfor %}
                                 </tr>
-                            {% endfor %}
-                        </table>
+                                <!-- Row Headers -->
+                                {% for row in board %}
+                                    <tr>
+                                        <!-- For loop counter just for the coordinate header -->
+                                        <td class="coord-header">{{ forloop.counter0 }}</td>
+                                        <!-- Tile List -->
+                                        {% for tile in row %}
+                                            <td class="tile {% if tile.value == PICKED_TILE %}picked{% endif %}"
+                                                data-row="{{ tile.row }}"
+                                                data-col="{{ tile.col }}"
+                                                data-value="{{ tile.value }}">
+                                                {{ tile.value }}
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                        <!-- No Board Active -->
+                            <div class="text-center">
+                                <p>No board active.</p>
+                                <a href="{% url 'create' %}" class="btn mt-2">Create Board</a>
+                            </div>
+                        {% endif %}
                     </div>
-                    <div id="game-message" class="aqua-message"></div>
-                {% else %}
-                    <div class="no-board-state">
-                        <h3>No Game Board</h3>
-                        <p>Create a new board to start playing!</p>
-                        <a href="{% url 'create' %}" class="aqua-btn primary">
-                            <span>Create New Game</span>
-                        </a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+                </div>
 
-        <!-- Right: Instructions -->
-        <div class="aqua-panel instructions-panel">
-            <div class="panel-header">
-                <h3>How to Play</h3>
+                <!-- Instructions -->
+                <div class="panel instructions-panel">
+                    <h3>How to Play</h3>
+                    <div class="instructions">
+                        <ul>
+                            <li>Click tiles to find treasure.</li>
+                            <li>Numbers = Points.</li>
+                            <li>{{ PICKED_TILE }} = Already checked.</li>
+                            <li>High score wins!</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="panel-content">
-                <ul class="instruction-steps">
-                    <li>Click any tile on the board to reveal treasure</li>
-                    <li>Numbers indicate treasure value (points earned)</li>
-                    <li><strong>_</strong> = Empty space</li>
-                    <li><strong>X</strong> = Already picked</li>
-                    <li>Highest score wins!</li>
-                </ul>
-            </div>
-        </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-2">
+            <p><small>ICS 226 - Network Programming</small></p>
+        </footer>
     </div>
-</div>
-</main>
-
-<footer>
-    <p>Treasure Board Game | ICS 226 - Network Programming</p>
-</footer>
-</div>
-
 </body>
 </html>
 

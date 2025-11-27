@@ -32,4 +32,7 @@ urlpatterns = [
     path('game/', include('game.urls')),
     path('api/', include(router.urls)),
 
+
 ]
+
+handler404 = 'game.views.custom_404'

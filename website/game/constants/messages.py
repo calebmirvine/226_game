@@ -11,3 +11,4 @@ class ErrorMessages:
     BAD_NAME_CHARS = "Name contains invalid characters"
     TOO_MANY_PLAYERS = "Maximum number of players reached in this game"
     PLAYER_404 = "Player not found"
+    PAGE_404 = "I cannot find the file you requested!"
