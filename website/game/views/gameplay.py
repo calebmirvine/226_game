@@ -1,64 +1,17 @@
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.http import HttpResponse, HttpRequest, HttpResponseBadRequest
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
-from rest_framework import viewsets
-from .serializers import PlayerSerializer, TileSerializer
-from .models import Player, Tile, validate_col_range, validate_row_range
-from .forms import PlayerForm
+from game.models import Player, Tile, validate_col_range, validate_row_range
 from game.constants.constants import (
     PICKED_TILE,
     DEFAULT_TILE,
     DEFAULT_BOARD_SIZE,
     DEFAULT_TREASURE_COUNT,
     MIN_PLAYERS,
-    PLAYER_1,
-    PLAYER_2,
 )
 from game.constants.messages import ErrorMessages
 import random
-
-# Create your views here.
-"""
-The viewsets base class provides the implementation for CRUD operations by default. 
-This code specifies the serializer_class and the queryset.
-"""
-class TileView(viewsets.ModelViewSet):
-    serializer_class = TileSerializer
-    queryset = Tile.objects.all()
-
-class PlayerView(viewsets.ModelViewSet):
-    serializer_class = PlayerSerializer
-    queryset = Player.objects.all()
-
-def index(request: HttpRequest) -> HttpResponse:
-    if request.method == 'POST':
-        form = PlayerForm(request.POST)
-        if form.is_valid():
-            player_number = int(request.POST.get('player_number'))
-            if player_number == 1:
-                name = PLAYER_1
-            else:
-                name = PLAYER_2
-            
-            color = form.cleaned_data['color']
-            
-            Player.objects.create(name=name, player_number=player_number, color=color)
-            return redirect('lobby')
-    else:
-        form = PlayerForm()
-    
-    players = Player.objects.all()
-    p1_exists = players.filter(player_number=1).exists()
-    p2_exists = players.filter(player_number=2).exists()
-
-    return render(request, 'game/index.html', {
-        'form': form,
-        'players': players,
-        'MIN_PLAYERS': MIN_PLAYERS,
-        'p1_exists': p1_exists,
-        'p2_exists': p2_exists
-    })
 
 @transaction.atomic
 def reset_game(request: HttpRequest) -> HttpResponse:
@@ -78,10 +31,6 @@ def start_game(request: HttpRequest, size: int = DEFAULT_BOARD_SIZE, treasure : 
     """
     tiles = [Tile(row=i, col=j, value=DEFAULT_TILE) for i in range(size) for j in range(size)]
     Tile.objects.bulk_create(tiles)
-    
-    #No defualt plaeyrs, created them in lobby/index.html
-    # players = [Player(name=PLAYER_1, color='#00FF00'), Player(name=PLAYER_2, color='#FF0000')]
-    # Player.objects.bulk_create(players)
     
     t_count = treasure
 
@@ -148,9 +97,10 @@ def game(request: HttpRequest) -> HttpResponse | None:
         'board': board,
         'DEFAULT_TILE': DEFAULT_TILE,
         'PICKED_TILE': PICKED_TILE,
-        'game_message': 'Pick a tile to start the game'
+        'game_message': 'Pick a tile to start the game',
     }
     return render(request, 'game/game.html', context)
+
 
 def pick(request: HttpRequest, name: str = None, row: int = None, col: int = None) -> HttpResponse:
     """
@@ -162,7 +112,8 @@ def pick(request: HttpRequest, name: str = None, row: int = None, col: int = Non
         tile_coords = request.POST.get('tile')
         if tile_coords:
             try:
-                row, col = map(int, tile_coords.split(','))
+                row, col = tile_coords.split(',')
+                row, col = int(row), int(col)
             except ValueError:
                 return redirect('game')
     
@@ -170,6 +121,7 @@ def pick(request: HttpRequest, name: str = None, row: int = None, col: int = Non
          return redirect('game')
 
     message = ""
+    tile = None
     try:
         player = Player.objects.get(name=name)
     except Player.DoesNotExist:
@@ -189,7 +141,7 @@ def pick(request: HttpRequest, name: str = None, row: int = None, col: int = Non
         if not message: # Only proceed if no errors so far
             tile = Tile.objects.get(row=row, col=col)
             value = tile.value
-            if value == DEFAULT_TILE or value == PICKED_TILE:
+            if not Tile.is_treasure(tile.value):
                 message = f'Player {player.name} picked tile ({row}, {col}). No treasure'
                 # Mark as picked even if no treasure
                 if tile.value == DEFAULT_TILE:
@@ -215,7 +167,8 @@ def pick(request: HttpRequest, name: str = None, row: int = None, col: int = Non
         'player_list': players,
         'board': board,
         'PICKED_TILE': PICKED_TILE,
-        'game_message': message
+        'game_message': message,
+        'is_treasure': Tile.is_treasure(tile.value) if tile else False
     })
 
 def reload_board(request: HttpRequest) -> HttpResponse:
@@ -230,15 +183,5 @@ def reload_board(request: HttpRequest) -> HttpResponse:
         'player_list': players,
         'board': board,
         'PICKED_TILE': PICKED_TILE,
-        'game_message': message
+        'game_message': message,
     })
-
-
-def custom_404(request: HttpRequest, exception: Exception) -> HttpResponse:
-    """
-    This function handles the 404 error.It returns a custom 404 page.
-    :param request: HttpRequest
-    :param exception: Exception
-    :return: HttpResponse
-    """
-    return render(request, '404.html', {'message': ErrorMessages.PAGE_404}, status=404)

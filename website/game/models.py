@@ -10,6 +10,9 @@ from game.constants.constants import (
     DEFAULT_TILE,
     MAX_PLAYER_NAME_LENGTH,
     MAX_TILE_LENGTH,
+    DEFAULT_TREASURE_COUNT,
+    PICKED_TILE,
+    FOUND_TREASURE,
 )
 from game.constants.messages import ErrorMessages
 
@@ -45,6 +48,14 @@ def validate_player_name_length(value):
     if len(value) > MAX_PLAYER_NAME_LENGTH:
         raise ValidationError(ErrorMessages.NAME_LONG, code='name_length')
 
+def validate_tile_value(value):
+    try:
+        int_val = int(value)
+        if int_val not in range(1, DEFAULT_TREASURE_COUNT + 1):
+             raise ValidationError(ErrorMessages.BAD_TILE_VALUE, code='bad_tile_value')
+    except ValueError:
+        if value not in [DEFAULT_TILE, PICKED_TILE, FOUND_TREASURE]:
+            raise ValidationError(ErrorMessages.BAD_TILE_VALUE, code='bad_tile_value')
 
 
 class Tile(models.Model):
@@ -56,7 +67,7 @@ class Tile(models.Model):
         validate_col_range,
         MinValueValidator(MIN_BOARD_SIZE)
     ])
-    value = models.CharField(max_length=MAX_TILE_LENGTH, default=DEFAULT_TILE)
+    value = models.CharField(max_length=MAX_TILE_LENGTH, default=DEFAULT_TILE, validators=[validate_tile_value])
     picked_by = models.ForeignKey('Player', null=True, blank=True, on_delete=models.SET_NULL)
 
     #Defines the default ordering for query sets.
@@ -67,6 +78,13 @@ class Tile(models.Model):
     def create_tile(cls, row, col, value):
         model = cls(row=row, col=col, value=value)
         return model
+
+    @classmethod
+    def is_treasure(cls, value):
+        try:
+            return int(value) in range(1, DEFAULT_TREASURE_COUNT + 1)
+        except ValueError:
+            return False
 
     def __str__(self):
         return f'Row: {self.row}, Col: {self.col} | Value: {self.value}'

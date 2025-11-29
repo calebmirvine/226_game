@@ -68,13 +68,17 @@
                                             <!-- Tile List -->
                                             {% for tile in row %}
                                                 <td>
+                                                    <!-- I'll want to probably change the submit button, and will want to  -->
                                                     <button 
-                                                        type="submit" 
+                                                        type="submit"  
                                                         name="tile" 
                                                         value="{{ tile.row }},{{ tile.col }}" 
                                                         class="tile tile-btn 
                                                         {% if tile.value == PICKED_TILE %}
                                                             picked
+                                                        {% endif %}
+                                                        {% if tile.value != DEFAULT_TILE and tile.value != PICKED_TILE %}
+                                                            treasure
                                                         {% endif %}"
                                                         {% if tile.picked_by %}
                                                             style="background: {{ tile.picked_by.color }}; opacity: 0.7; color: white;"
