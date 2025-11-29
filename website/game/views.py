@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from rest_framework import viewsets
 from .serializers import PlayerSerializer, TileSerializer
 from .models import Player, Tile, validate_col_range, validate_row_range
-from .models import Player, Tile, validate_col_range, validate_row_range
+from .forms import PlayerForm
 from game.constants.constants import (
     PICKED_TILE,
     DEFAULT_TILE,
@@ -33,22 +33,27 @@ class PlayerView(viewsets.ModelViewSet):
 
 def index(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
-        player_number = int(request.POST.get('player_number'))
-        if player_number == 1:
-            name = PLAYER_1
-            color = 'green'
-        else:
-            name = PLAYER_2
-            color = 'red'
-        
-        Player.objects.create(name=name, player_number=player_number, color=color)
-        return redirect('lobby')
+        form = PlayerForm(request.POST)
+        if form.is_valid():
+            player_number = int(request.POST.get('player_number'))
+            if player_number == 1:
+                name = PLAYER_1
+            else:
+                name = PLAYER_2
+            
+            color = form.cleaned_data['color']
+            
+            Player.objects.create(name=name, player_number=player_number, color=color)
+            return redirect('lobby')
+    else:
+        form = PlayerForm()
     
     players = Player.objects.all()
     p1_exists = players.filter(player_number=1).exists()
     p2_exists = players.filter(player_number=2).exists()
 
     return render(request, 'game/index.html', {
+        'form': form,
         'players': players,
         'MIN_PLAYERS': MIN_PLAYERS,
         'p1_exists': p1_exists,
@@ -63,7 +68,7 @@ def reset_game(request: HttpRequest) -> HttpResponse:
     """
     Tile.objects.all().delete()
     Player.objects.all().delete()
-    return redirect('index')
+    return redirect('lobby')
 
 @transaction.atomic
 def start_game(request: HttpRequest, size: int = DEFAULT_BOARD_SIZE, treasure : int = DEFAULT_TREASURE_COUNT) -> HttpResponse:
@@ -71,13 +76,11 @@ def start_game(request: HttpRequest, size: int = DEFAULT_BOARD_SIZE, treasure : 
     Starts the game with existing players.
     Creates a new board and places treasure.
     """
-    Tile.objects.all().delete()
-    Player.objects.all().delete() 
-
     tiles = [Tile(row=i, col=j, value=DEFAULT_TILE) for i in range(size) for j in range(size)]
     Tile.objects.bulk_create(tiles)
     
-    # players = [Player(name=PLAYER_1), Player(name=PLAYER_2)]
+    #No defualt plaeyrs, created them in lobby/index.html
+    # players = [Player(name=PLAYER_1, color='#00FF00'), Player(name=PLAYER_2, color='#FF0000')]
     # Player.objects.bulk_create(players)
     
     t_count = treasure
@@ -149,18 +152,23 @@ def game(request: HttpRequest) -> HttpResponse | None:
     }
     return render(request, 'game/game.html', context)
 
-def pick(request: HttpRequest, name: str, row: int, col: int) -> HttpResponse:
+def pick(request: HttpRequest, name: str = None, row: int = None, col: int = None) -> HttpResponse:
     """
     This function handles the pick action.
-    It first checks if the player exists, if not it returns a 404 error.
-    Then it checks if the row and column are valid, if not it returns a 400 error.
-    Then it gets the tile and checks if it is a default tile or a picked tile, if not it returns a 400 error.
-    :param request: HttpRequest
-    :param name: str
-    :param row: int
-    :param col: int
-    :return: HttpResponse
+    It handles both GET (legacy) and POST (form) requests.
     """
+    if request.method == 'POST':
+        name = request.POST.get('player_name')
+        tile_coords = request.POST.get('tile')
+        if tile_coords:
+            try:
+                row, col = map(int, tile_coords.split(','))
+            except ValueError:
+                return redirect('game')
+    
+    if not name or row is None or col is None:
+         return redirect('game')
+
     message = ""
     try:
         player = Player.objects.get(name=name)
@@ -183,11 +191,17 @@ def pick(request: HttpRequest, name: str, row: int, col: int) -> HttpResponse:
             value = tile.value
             if value == DEFAULT_TILE or value == PICKED_TILE:
                 message = f'Player {player.name} picked tile ({row}, {col}). No treasure'
+                # Mark as picked even if no treasure
+                if tile.value == DEFAULT_TILE:
+                    tile.value = PICKED_TILE
+                    tile.picked_by = player
+                    tile.save()
             else:
                 player.score += int(value)
                 player.save()
                 message = f'Player {player.name} found {value} points! Total: {player.score}'
                 tile.value = PICKED_TILE
+                tile.picked_by = player
                 tile.save()
 
     players = Player.objects.all()

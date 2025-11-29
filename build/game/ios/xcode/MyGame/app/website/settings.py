@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from dj_database_url import config
+from os import environ, path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,13 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0c(@taut&#hkg2*rj@t@c6hsctj+m#=*v$fwjphx#8j=c=3aq8'
+SECRET_KEY = 'tyK^.WN5RQc]64p9;Y4~Xz1/]n:vU([.$0zyAYVo8:^#[JmOf6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'RENDER' not in environ
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+RENDER_EXTERNAL_HOSTNAME = environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 
@@ -40,10 +43,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'game.apps.GameConfig',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -118,7 +124,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -134,3 +141,14 @@ because you want the frontend (which will be served on that port) of the applica
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
+
+if not DEBUG:
+    SECRET_KEY = environ['SECRET_KEY']
+
+if not DEBUG and config:
+    db = config(conn_max_age=600, default='postgresql://postgres:postgres@localhost:5432/website')
+    DATABASES['default'] = db
+
+if not DEBUG:
+    STATIC_ROOT = path.join(BASE_DIR, 'staticfiles')
+    GTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

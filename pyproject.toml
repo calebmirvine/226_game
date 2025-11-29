@@ -13,7 +13,7 @@ formal_name = "MyGame"
 description = "My first application"
 long_description = """More details about the app should go here.
 """
-icon = "website/game/static/assets/icon"
+icon = "website/game/static/assets/icon.png"
 sources = [
     "website/game",
     "website/website",
@@ -26,6 +26,9 @@ requires = [
     "django~=5.1",
     "django-cors-headers",
     "djangorestframework",
+    "dj-database-url",
+    "django-colorfield",
+    "whitenoise",
 ]
 test_requires = [
     "pytest",

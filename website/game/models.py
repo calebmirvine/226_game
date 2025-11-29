@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator, MinValueValidator
+from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
+from colorfield.fields import ColorField
 from django.db import models
 from game.constants.constants import (
     MIN_BOARD_SIZE,
@@ -56,6 +57,7 @@ class Tile(models.Model):
         MinValueValidator(MIN_BOARD_SIZE)
     ])
     value = models.CharField(max_length=MAX_TILE_LENGTH, default=DEFAULT_TILE)
+    picked_by = models.ForeignKey('Player', null=True, blank=True, on_delete=models.SET_NULL)
 
     #Defines the default ordering for query sets.
     class Meta:
@@ -77,10 +79,10 @@ class Player(models.Model):
         validate_max_players,
     ])
     score = models.IntegerField(default=PLAYER_STARTING_SCORE, editable=False)
-    color = models.CharField(max_length=20, default='blue')
+    color = ColorField(default='#0000FF')
     player_number = models.IntegerField(default=1, validators=[
         MinValueValidator(1),
-        MinValueValidator(MAX_PLAYERS)
+        MaxValueValidator(MAX_PLAYERS)
     ])
 
     @classmethod

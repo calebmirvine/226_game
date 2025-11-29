@@ -1,0 +1,541 @@
+:root {
+    /* Colors */
+    --aqua-blue-start: rgba(0, 65, 184, 0.625);
+    --aqua-blue-mid: rgba(45, 115, 199, 0.625);
+    --aqua-blue-end: rgba(33, 160, 196, 0.625);
+
+    --silver-start: rgba(160, 160, 160, 0.625);
+    --silver-end: rgba(255, 255, 255, 0.625);
+
+    --text-dark: #000000;
+    --text-light: #FFFFFF;
+
+    /* Gradients */
+    --bg-pinstripe: repeating-linear-gradient(#F0F0F0, #F0F0F0 4px, #FFFFFF 4px, #FFFFFF 8px);
+    --grad-primary: linear-gradient(var(--aqua-blue-start), var(--aqua-blue-mid), var(--aqua-blue-end));
+    --grad-secondary: linear-gradient(var(--silver-start), var(--silver-end));
+
+    /* Shadows */
+    --shadow-primary:
+        0 0.375em 0.5em rgba(0, 0, 0, 0.3),
+        0 0.125em 0.125em rgba(0, 78, 187, 0.5),
+        inset 0 0.25em 0.5em rgba(0, 17, 49, 0.8),
+        inset 0 0.375em 0.5em 0.25em rgba(0, 78, 187, 0.75);
+
+    --shadow-secondary:
+        0 0.375em 0.5em rgba(0, 0, 0, 0.2),
+        0 0.125em 0.125em rgba(0, 0, 0, 0.3),
+        inset 0 0.25em 0.25em rgba(0, 0, 0, 0.4),
+        inset 0 0.375em 0.5em 0.25em #BBBBBB;
+
+    --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    --shadow-inset: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "myriad-pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-pinstripe);
+    color: var(--text-dark);
+    padding: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 95%;
+    /* Full width */
+    width: 100%;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
+    border-radius: 15px;
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    /* Fallback for text-shadow since it doesn't work well with background-clip: text */
+}
+
+/* Main Layout */
+main {
+    flex: 1;
+}
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    /* Bigger side panels */
+    gap: 1rem;
+    align-items: start;
+}
+
+/* Panels (Cards) */
+.panel {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.panel h3 {
+    color: #444;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* Controls */
+.control-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(180deg, #f9f9f9, #e9e9e9);
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-card);
+    border: 1px solid white;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Aqua Buttons */
+.btn {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.6em 1.5em;
+    border-radius: 1000px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    background: var(--grad-primary);
+    box-shadow: var(--shadow-primary);
+    transition: transform 0.1s;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn:disabled,
+.btn.btn-secondary {
+    background: var(--grad-secondary);
+    color: #555;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Top Shine */
+.btn:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 33%;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.3));
+    width: calc(100% - 0.875em);
+    border-radius: 2em 2em 0.5em 0.5em;
+    top: 5%;
+    filter: blur(1px);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Bottom Glow */
+.btn:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 33%;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgb(255, 255, 255, 0.5));
+    width: calc(100% - 1.25em);
+    border-radius: 0.75em;
+    bottom: 10%;
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+.btn span {
+    position: relative;
+    top: -1px;
+    z-index: 3;
+    letter-spacing: 0.0375em;
+    text-shadow: 0 0.25em 0.2em rgba(30, 77, 161, 0.5);
+}
+
+/* Inputs */
+select,
+input {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    box-shadow: var(--shadow-inset);
+    font-size: 1rem;
+    outline: none;
+    color: #333;
+}
+
+select:focus,
+input:focus {
+    background: #fff;
+    border-color: #999;
+}
+
+/* Scoreboard */
+.score-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.score-item:last-child {
+    border-bottom: none;
+}
+
+.score-val {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #333;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* Game Board */
+.board-wrapper {
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+table.board {
+    border-collapse: separate;
+    border-spacing: 6px;
+}
+
+.coord-header {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    color: #666;
+    font-size: 0.9rem;
+    width: 30px;
+    height: 30px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.coord-corner {
+    width: 30px;
+    height: 30px;
+}
+
+/* Tile as a Gel Button */
+.tile {
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+    /* Slightly squarer than pill buttons */
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 1.6rem;
+
+    /* Secondary (Silver) Style by default */
+    background: var(--grad-secondary);
+    box-shadow: var(--shadow-secondary);
+    color: #333;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: transform 0.1s;
+}
+
+.tile-btn {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+    z-index: 5;
+    position: relative;
+}
+
+.tile:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 35%;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+    width: 90%;
+    border-radius: 10px 10px 4px 4px;
+    top: 4%;
+    filter: blur(0.5px);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.tile:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30%;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.6));
+    width: 80%;
+    border-radius: 6px;
+    bottom: 8%;
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.tile:hover:not(.picked) {
+    transform: scale(1.05);
+    /* Switch to Primary (Blue) on hover */
+    background: var(--grad-primary);
+    box-shadow: var(--shadow-primary);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.tile.picked {
+    background: #e0e0e0;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #999;
+    cursor: default;
+    transform: none;
+}
+
+.tile.picked:before,
+.tile.picked:after {
+    display: none;
+}
+
+/* Instructions */
+.instructions ul {
+    list-style-position: inside;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* Footer */
+footer {
+    color: #777;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsiveness */
+/* Mobile Responsiveness */
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    .game-layout {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "controls"
+            "board"
+            "score"
+            "help";
+    }
+
+    .control-bar {
+        grid-area: controls;
+    }
+
+    .board-panel {
+        grid-area: board;
+        padding: 0.2rem;
+        /* Minimal padding */
+    }
+
+    .board-wrapper {
+        padding: 0.2rem;
+        /* Minimal padding */
+    }
+
+    .scoreboard-panel {
+        grid-area: score;
+    }
+
+    .instructions-panel {
+        grid-area: help;
+    }
+
+    .tile {
+        /* Fluid size for mobile - calculate based on 10 columns + gaps */
+        width: 12vw;
+        /* Much larger */
+        height: 12vw;
+        max-width: none;
+        max-height: none;
+        font-size: 1.4rem;
+        border-radius: 10%;
+    }
+
+    table.board {
+        border-spacing: 2px;
+        /* Tight spacing */
+    }
+
+    /* Hide coordinates on mobile to save space */
+    .coord-header,
+    .coord-corner {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .control-bar {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .tile {
+        width: 13vw;
+        /* Maximize width */
+        height: 13vw;
+        font-size: 1.2rem;
+    }
+}
+
+/* Utility */
+.text-center {
+    text-align: center;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+/* Game Message Banner */
+.game-message {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    font-weight: bold;
+    background: var(--grad-primary);
+    box-shadow: var(--shadow-primary);
+    text-shadow: 0 0.25em 0.2em rgba(30, 77, 161, 0.5);
+    font-size: 1.1rem;
+}
+
+.game-message:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 33%;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.3));
+    width: calc(100% - 0.875em);
+    border-radius: 2em 2em 0.5em 0.5em;
+    top: 5%;
+    filter: blur(1px);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.game-message:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 33%;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgb(255, 255, 255, 0.5));
+    width: calc(100% - 1.25em);
+    border-radius: 0.75em;
+    bottom: 10%;
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+.game-message p {
+    position: relative;
+    z-index: 3;
+    margin: 0;
+}
+
+/* Player Colors */
+.tile.p-one {
+    background: linear-gradient(rgba(46, 204, 113, 0.8), rgba(39, 174, 96, 0.8));
+    box-shadow: 0 0.375em 0.5em rgba(0, 0, 0, 0.3), inset 0 0.25em 0.5em rgba(255, 255, 255, 0.4);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    cursor: default;
+    transform: none;
+}
+
+.tile.p-two {
+    background: linear-gradient(rgba(231, 76, 60, 0.8), rgba(192, 57, 43, 0.8));
+    box-shadow: 0 0.375em 0.5em rgba(0, 0, 0, 0.3), inset 0 0.25em 0.5em rgba(255, 255, 255, 0.4);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    cursor: default;
+    transform: none;
+}
+
+.text-p-one {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.text-p-two {
+    color: #c0392b;
+    font-weight: bold;
+}

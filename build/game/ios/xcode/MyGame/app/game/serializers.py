@@ -8,7 +8,7 @@ This code specifies the model to work with and the fields to be converted to JSO
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = ['id', 'name', 'score']
+        fields = ['id', 'name', 'score', 'color']
 
 class TileSerializer(serializers.ModelSerializer):
     class Meta:

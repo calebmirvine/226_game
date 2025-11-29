@@ -91,12 +91,16 @@ class Game(toga.App):
         self.on_exit = self.cleanup
 
         # Create URL bar (To allow  search to access certain game functionality)
+        
         self.url_input = toga.TextInput(value="Starting server...", style=Pack(flex=1))
-        self.go_button = toga.Button("Go", on_press=self.load_url, style=Pack(width=50, padding_left=5))
+        self.url_input = toga.TextInput(value="Starting server...", style=Pack(flex=1))
+        self.go_button = toga.Button("Go", on_press=self.load_url, style=Pack(width=50, margin_left=5))
         url_box = toga.Box(
             children=[self.url_input, self.go_button],
-            style=Pack(direction=ROW, padding=5)
+            style=Pack(direction=ROW, margin=5)
         )
+        #Disabled for now, we dont really need it here
+        url_box.enabled = False
 
         self.web_view.style = Pack(flex=1)
 
@@ -115,7 +119,11 @@ class Game(toga.App):
         """
         This function loads the URL in the web view.
         """
-        self.web_view.url = self.url_input.value
+        url = self.url_input.value
+        if url.startswith(("http://", "https://")):
+            self.web_view.url = url
+        else:
+            print(f"Invalid URL ignored: {url}")
 
     async def on_running(self) -> None:
         """

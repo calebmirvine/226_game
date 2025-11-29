@@ -28,11 +28,8 @@ router.register(r'players', views.PlayerView, 'player')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('game.urls')),
     path('game/', include('game.urls')),
     path('api/', include(router.urls)),
-
-
 ]
 
 handler404 = 'game.views.custom_404'
