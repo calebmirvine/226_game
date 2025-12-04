@@ -15,6 +15,7 @@ channels = "*"
 django-colorfield = "*"
 whitenoise = "*"
 dj-database-url = "*"
+typing-extensions = "*"
 
 [dev-packages]
 flaky = "*"
