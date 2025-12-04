@@ -18,6 +18,7 @@ dj-database-url = "*"
 
 [dev-packages]
 flaky = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.12"
