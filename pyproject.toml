@@ -13,7 +13,7 @@ formal_name = "MyGame"
 description = "My first application"
 long_description = """More details about the app should go here.
 """
-icon = "website/game/static/assets/icon.png"
+icon = "website/game/static/assets/icon"
 sources = [
     "website/game",
     "website/website",

@@ -1278,11 +1278,11 @@
 		</data>
 		<key>app/game-0.0.1.dist-info/METADATA</key>
 		<data>
-		nnOh6jb5dnpLKnHswFTQ8Ye/X80=
+		fPSeT7K5HDRulKUM5CgUhH3Ya9E=
 		</data>
 		<key>app/game-0.0.1.dist-info/WHEEL</key>
 		<data>
-		i/CCvcyj/ps11poJ5S+IIqx9VG0=
+		8S+F2+KfXzuUCGXgWZQi6TQLO9o=
 		</data>
 		<key>app/game-0.0.1.dist-info/top_level.txt</key>
 		<data>
@@ -1310,11 +1310,15 @@
 		</data>
 		<key>app/game/constants/constants.py</key>
 		<data>
-		vmJPCWW1XE2w2irCOHi03kvaQf8=
+		Pc3O1W8iqc9tkkWTO72wXfFY5wM=
+		</data>
+		<key>app/game/constants/context_processors.py</key>
+		<data>
+		dRB+4FagKu/WlUkbprg94GRVmIM=
 		</data>
 		<key>app/game/constants/messages.py</key>
 		<data>
-		Do1YGAKwxABCMtcmNSR8EGSS0ZI=
+		J+mmZoA/IxcwmlmkjLogjlqo/BY=
 		</data>
 		<key>app/game/forms.py</key>
 		<data>
@@ -1368,17 +1372,25 @@
 		<data>
 		jZMhgtqd1q4BdpqQszhCiO4bgF8=
 		</data>
+		<key>app/game/migrations/0013_alter_player_color_alter_tile_value.py</key>
+		<data>
+		Lqsu6DUni2g88FdMjBkGzH2M7Bo=
+		</data>
+		<key>app/game/migrations/0014_alter_player_player_number.py</key>
+		<data>
+		GwOx3ahDniUkOK/VdZo+5KUz1TU=
+		</data>
 		<key>app/game/migrations/__init__.py</key>
 		<data>
 		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
 		</data>
 		<key>app/game/models.py</key>
 		<data>
-		Magmfvtqn1SfP11wW/ono10T+zQ=
+		Wm03X9/P59zgDMCKpBrWMIjGaac=
 		</data>
 		<key>app/game/serializers.py</key>
 		<data>
-		RnfFJmBCtsLO7vv92N0YZh/MMps=
+		o/oyxEWFpGvYtm9ceYqOEB0kvzs=
 		</data>
 		<key>app/game/static/assets/icon.png</key>
 		<data>
@@ -1386,7 +1398,7 @@
 		</data>
 		<key>app/game/static/game-styles.css</key>
 		<data>
-		Poxdbf7AWh3BucVnS++KTkuPYvs=
+		yXdNq5r6dzDdveGc/Oo3cDNmkjg=
 		</data>
 		<key>app/game/static/styles.css</key>
 		<data>
@@ -1398,23 +1410,27 @@
 		</data>
 		<key>app/game/templates/base/base.html</key>
 		<data>
-		zPz7vfDqSw4CPtlStDRk4whXV7E=
+		zPJM8Uko1HzrR5hpZnMCcO3ZIgA=
 		</data>
 		<key>app/game/templates/game/game.html</key>
 		<data>
-		U9vGTJW37qys7KBamq+J7JqKBdE=
+		YWs42lO4HUZDyiW41BIJ0TZyAjg=
 		</data>
 		<key>app/game/templates/game/index.html</key>
 		<data>
 		2DzsWcvHK8B/CDGIBBmV66ibFjc=
 		</data>
-		<key>app/game/tests/test_forms.py</key>
+		<key>app/game/tests/test_board.py</key>
 		<data>
-		+r7N5LgUqHMvGkY9XeFuT6RAsNY=
+		1cG4tPWJvaCyyYqPJUlSJ8yj3rw=
 		</data>
-		<key>app/game/tests/tests.py</key>
+		<key>app/game/tests/test_gameplay.py</key>
 		<data>
-		gNTNbljcH+QmTSow3SHWVpJNOTM=
+		9I2rrulMU6A2qCB3zH5IteSczzk=
+		</data>
+		<key>app/game/tests/test_models.py</key>
+		<data>
+		AA91sbzdQXm3sHyXMoNhOhp533U=
 		</data>
 		<key>app/game/toga.py</key>
 		<data>
@@ -1422,11 +1438,31 @@
 		</data>
 		<key>app/game/urls.py</key>
 		<data>
-		UC5+/PqfrOIaFGUO1okay158PdY=
+		djd6v0f9BUOt+DtW8LNP4sn+Q/8=
 		</data>
-		<key>app/game/views.py</key>
+		<key>app/game/views/__init__.py</key>
 		<data>
-		KAUt+PhjYzwrDUHnJploneuVyPk=
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		</data>
+		<key>app/game/views/views_api.py</key>
+		<data>
+		rGGWDBgfyy6Y4zk/l9Mgaf2hGH8=
+		</data>
+		<key>app/game/views/views_errors.py</key>
+		<data>
+		aKfcrGYE+A2XNVbmN6wedHC6HHk=
+		</data>
+		<key>app/game/views/views_game_control.py</key>
+		<data>
+		EotliFyH8z6t4TRFs3YvoV6NoKo=
+		</data>
+		<key>app/game/views/views_gameplay.py</key>
+		<data>
+		yqyzkBFLZ9ylullB/sjDJ/4R09s=
+		</data>
+		<key>app/game/views/views_lobby.py</key>
+		<data>
+		ll/3+ZTvhfWNtGsib76Z7Pxk7lI=
 		</data>
 		<key>app/website/__init__.py</key>
 		<data>
@@ -1438,11 +1474,11 @@
 		</data>
 		<key>app/website/settings.py</key>
 		<data>
-		WT5iIQ5lrzfLqZdcccw/9e/iWCM=
+		liYz1m077VHwR+w4vEInjkgRQyY=
 		</data>
 		<key>app/website/urls.py</key>
 		<data>
-		6x2451VuSJmVIaJewWv9OUsEyi4=
+		5nZrU6glzEqiOd2UmmEdZwLMmY0=
 		</data>
 		<key>app/website/wsgi.py</key>
 		<data>
@@ -1914,7 +1950,7 @@
 		</data>
 		<key>app_packages/asgiref-3.11.0.dist-info/RECORD</key>
 		<data>
-		96xV1/lPryLPyBF2xmfsjSApNoM=
+		LZv2LUmbkrr3eW2kP+vNe87Mp5g=
 		</data>
 		<key>app_packages/asgiref-3.11.0.dist-info/WHEEL</key>
 		<data>
@@ -2114,7 +2150,7 @@
 		</data>
 		<key>app_packages/dj_database_url-3.0.1.dist-info/RECORD</key>
 		<data>
-		2G+vxYd+V2im/weLWh5mODqJalI=
+		rAkRZmi+YqVCepf2SsWDPM56/GY=
 		</data>
 		<key>app_packages/dj_database_url-3.0.1.dist-info/REQUESTED</key>
 		<data>
@@ -2150,7 +2186,7 @@
 		</data>
 		<key>app_packages/django-5.2.8.dist-info/RECORD</key>
 		<data>
-		T1v7rIMDKumpc+k9jOwmxDjjZBU=
+		OApdwyVcALAVU1jxSRN6a9aOZe0=
 		</data>
 		<key>app_packages/django-5.2.8.dist-info/REQUESTED</key>
 		<data>
@@ -16826,7 +16862,7 @@
 		</data>
 		<key>app_packages/django_colorfield-0.14.0.dist-info/RECORD</key>
 		<data>
-		Kkk35HtzGi8HHtj5xiLfts60CM8=
+		5z6CPqwrNHs+WtTFkyoqxPk7dZM=
 		</data>
 		<key>app_packages/django_colorfield-0.14.0.dist-info/REQUESTED</key>
 		<data>
@@ -16854,7 +16890,7 @@
 		</data>
 		<key>app_packages/django_cors_headers-4.9.0.dist-info/RECORD</key>
 		<data>
-		rMb8fJDFWLzNRk1mGL8va5N35t8=
+		ezTpd+T6GoVFZUWwv9kWfA5FRvU=
 		</data>
 		<key>app_packages/django_cors_headers-4.9.0.dist-info/REQUESTED</key>
 		<data>
@@ -16882,7 +16918,7 @@
 		</data>
 		<key>app_packages/djangorestframework-3.16.1.dist-info/RECORD</key>
 		<data>
-		q+SEVI3uKSYtMlD+2nEFe7cn3xw=
+		6/5zq52ph716Vm9vrEUxA+OB2Gs=
 		</data>
 		<key>app_packages/djangorestframework-3.16.1.dist-info/REQUESTED</key>
 		<data>
@@ -18242,7 +18278,7 @@
 		</data>
 		<key>app_packages/fonttools-4.61.0.dist-info/RECORD</key>
 		<data>
-		bttde4lg7Mo7VXoSucXyPHz31RA=
+		kcTpxyBnSbdCzS3zZP+vRyaoMQw=
 		</data>
 		<key>app_packages/fonttools-4.61.0.dist-info/WHEEL</key>
 		<data>
@@ -18278,7 +18314,7 @@
 		</data>
 		<key>app_packages/pillow-12.0.0.dist-info/RECORD</key>
 		<data>
-		DxJOEtIXAGFNWdHD+qY864ICWB8=
+		B7wKhPFjgWBOdBWEbO3qOnWvyqM=
 		</data>
 		<key>app_packages/pillow-12.0.0.dist-info/WHEEL</key>
 		<data>
@@ -19286,7 +19322,7 @@
 		</data>
 		<key>app_packages/rubicon_objc-0.5.2.dist-info/RECORD</key>
 		<data>
-		1gQ9x8+eipCI/KGWGlk/wFwCTN8=
+		QJiyRUdAiVHAS/jGSw73oF6u90g=
 		</data>
 		<key>app_packages/rubicon_objc-0.5.2.dist-info/WHEEL</key>
 		<data>
@@ -19314,7 +19350,7 @@
 		</data>
 		<key>app_packages/sqlparse-0.5.4.dist-info/RECORD</key>
 		<data>
-		rQCOmruYuCgZYEetkrU7dTh2LGw=
+		oXjT4DVcjLbo6RYTaCYiUh34NdA=
 		</data>
 		<key>app_packages/sqlparse-0.5.4.dist-info/WHEEL</key>
 		<data>
@@ -19434,7 +19470,7 @@
 		</data>
 		<key>app_packages/std_nslog-1.0.3.dist-info/RECORD</key>
 		<data>
-		b6kUEUFD0fEgysKqrWyxdyC4hO8=
+		BgeMSRcZudPcNBuzjYEDv6E3qfQ=
 		</data>
 		<key>app_packages/std_nslog-1.0.3.dist-info/REQUESTED</key>
 		<data>
@@ -19730,7 +19766,7 @@
 		</data>
 		<key>app_packages/toga_core-0.5.2.dist-info/RECORD</key>
 		<data>
-		V/NrNmKTNq0mtVv2yFKQdgx+pIw=
+		ZRYkO8QqvQt2+1ixrEUPrA0uSw0=
 		</data>
 		<key>app_packages/toga_core-0.5.2.dist-info/WHEEL</key>
 		<data>
@@ -19970,7 +20006,7 @@
 		</data>
 		<key>app_packages/toga_ios-0.5.2.dist-info/RECORD</key>
 		<data>
-		WvMgnHFMOj2l5LY9cJdV2hSflpE=
+		/fOgFSPXOZlLRI608eg9DXc8PbI=
 		</data>
 		<key>app_packages/toga_ios-0.5.2.dist-info/REQUESTED</key>
 		<data>
@@ -20002,7 +20038,7 @@
 		</data>
 		<key>app_packages/travertino-0.5.2.dist-info/RECORD</key>
 		<data>
-		wWvmd514j7ZtfXrLBnuop1ApA2o=
+		WcZJ4RHTu0iwKIYfWgDBDkKz7ss=
 		</data>
 		<key>app_packages/travertino-0.5.2.dist-info/WHEEL</key>
 		<data>
@@ -20086,7 +20122,7 @@
 		</data>
 		<key>app_packages/whitenoise-6.11.0.dist-info/RECORD</key>
 		<data>
-		NJlF3W0ABzOkt8gfD7DYWPlZWgA=
+		OM+MkqkpNn0Pj0ng+n/Ty5aX0Qw=
 		</data>
 		<key>app_packages/whitenoise-6.11.0.dist-info/REQUESTED</key>
 		<data>
@@ -31856,14 +31892,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uUd9UD+/c6xyvAISlAk6RQn6ca6gxVtfp9IY53QAFKc=
+			SOcpoR9WIwcYK+mNJqCUtKK9JlLeG7/fV70mdaqLMHs=
 			</data>
 		</dict>
 		<key>app/game-0.0.1.dist-info/WHEEL</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			z3RRJFT/ub7/YVQfMGzadLdgubpVkgCDqDR2bGXS+7I=
+			pJY41Sr0CPHWjrRUkQIuJSTAiMv19At2rQ3bkXDVf+M=
 			</data>
 		</dict>
 		<key>app/game-0.0.1.dist-info/top_level.txt</key>
@@ -31912,14 +31948,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Cl0cMqD7PHQrlLmm4Q7x+BeUA27p/i/ABXp/G8hV+dQ=
+			7XdGxD8H+qvPsItr4ckPQGQh5IOXqe4BUP2AU/+C/m4=
+			</data>
+		</dict>
+		<key>app/game/constants/context_processors.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dkT8VIBjK0H2xR+2i1VpPkotdbcReSNt0dnufPVqUJE=
 			</data>
 		</dict>
 		<key>app/game/constants/messages.py</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			doVtyDmzDpZEdA8+v/H7qPWokMHsLMnIiZ/8FcR1SOw=
+			QbBOxEEsT8oi6ZJ9sUzvIzpcqoMNgGO7C/LATcoKDns=
 			</data>
 		</dict>
 		<key>app/game/forms.py</key>
@@ -32013,6 +32056,20 @@
 			gHCCbA7oLTTolkq1KZ6UxiuJwi68M9xqsYeNlKorpsk=
 			</data>
 		</dict>
+		<key>app/game/migrations/0013_alter_player_color_alter_tile_value.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ijdkWxLJFwTAIZnKpVYYf9HJRVhXDZiE54SY4ZSnlyU=
+			</data>
+		</dict>
+		<key>app/game/migrations/0014_alter_player_player_number.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			pRA2VJTLspLaY42uvF1X+3mFDf+MdBid2VtmrBrqZwQ=
+			</data>
+		</dict>
 		<key>app/game/migrations/__init__.py</key>
 		<dict>
 			<key>hash2</key>
@@ -32024,14 +32081,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1EQSICaMkt/QKUg3KFLmX3/NTTEYycEvHOgS9THegX0=
+			3ZcuwNS1g0uLlzur/nDi4gUn05mwfPOpIWEgmuhjXPs=
 			</data>
 		</dict>
 		<key>app/game/serializers.py</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3ly9dcUwYHwnb4hPkU7Vylk7NbFhr0tEilQnPOOmqJ0=
+			gyYD0tvCI4fISvO7ydDEVZ4lJW9N0hOJvKXAp2YM6Sw=
 			</data>
 		</dict>
 		<key>app/game/static/assets/icon.png</key>
@@ -32045,7 +32102,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			WS32mdFiw10ckMUVo9TJ8YsmrBRaxzoa376nIUvsLTo=
+			LHGU9Gr5q14f0cD5MZ6pLO31KHjehzBrUxcjry5J+C0=
 			</data>
 		</dict>
 		<key>app/game/static/styles.css</key>
@@ -32066,14 +32123,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			iiABDNhBgEVADYUmeqnro8H5V10AQ699nC6019Fjy/U=
+			TmviSR0W0X2+ni/err78q6qY12WImJvQ1UNIIoJK45k=
 			</data>
 		</dict>
 		<key>app/game/templates/game/game.html</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			RUZo6JAE/4/tWjZqGOeeYIJRVL0eNciCl//jJphTYug=
+			S1dVTaYQ+O6LLB2rXccqPDiupXsfDR+hLukGG7rGzJE=
 			</data>
 		</dict>
 		<key>app/game/templates/game/index.html</key>
@@ -32083,18 +32140,25 @@
 			Jp5urjh+Ocsd7vAzlciSB5n3PnxA1Cfd7C8buawGEqs=
 			</data>
 		</dict>
-		<key>app/game/tests/test_forms.py</key>
+		<key>app/game/tests/test_board.py</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WNERBHrPZ8cS9xWLI+KuBEiqAGBvJcM+HXNXBO/09vA=
+			UrB1d3rvMbVOGkbaGxDcPEkdouTVD7ZGVRC/FfbLfXE=
 			</data>
 		</dict>
-		<key>app/game/tests/tests.py</key>
+		<key>app/game/tests/test_gameplay.py</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ouZgYXc0YOicF8KrXoCjCf/EDM53L7A1TuP/+8qLGMg=
+			CibsX/B7fDnoiQFINVGQ1g6hWdfQv/rsjbm0808p8eU=
+			</data>
+		</dict>
+		<key>app/game/tests/test_models.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FLoIUpgxRp2A5aSJDsKzeVISlo7RgzVzQiNbjN49dlg=
 			</data>
 		</dict>
 		<key>app/game/toga.py</key>
@@ -32108,14 +32172,49 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			diiqGdDsFqo0AIFXdJKIthj3fIqvCPNMOiStQb3Twyg=
+			RPH4e0p8nVpB8tO/dzjxZg2vuu04o/GtYAtWWXKQFFk=
 			</data>
 		</dict>
-		<key>app/game/views.py</key>
+		<key>app/game/views/__init__.py</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qZJuyLm/0nfKUaitK/lOhvRcpoZhNQTB87S+9gb90wg=
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			</data>
+		</dict>
+		<key>app/game/views/views_api.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			KXIZ5LpvNJEm6jKTjLNWhAqBfA9guj45cx3yiMLV4kw=
+			</data>
+		</dict>
+		<key>app/game/views/views_errors.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			pHm+V85AwRW/WSFF6WfPpq/ftVmQW6vuPyS+ggkAU+c=
+			</data>
+		</dict>
+		<key>app/game/views/views_game_control.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			YCWdgXaNWHDjqyGr6Rtchcxy0Ybn/YOdNuxKG4xI5I4=
+			</data>
+		</dict>
+		<key>app/game/views/views_gameplay.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			MET5PSbuGff0wSkMUtobqNqoDr9LohhSbGTFGiXtuhc=
+			</data>
+		</dict>
+		<key>app/game/views/views_lobby.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			xqQVuJt3nfTVnTFSTIXC1CY67uZmJ6V3gVrselb7bMo=
 			</data>
 		</dict>
 		<key>app/website/__init__.py</key>
@@ -32136,14 +32235,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			8gkSZvWnLotmcFWGa0Lq8YPgAFMk8GFW34i6po/eyl0=
+			jPIDHcbpwJncNIGwS7hq47n9fwTOZbLtGGP0KYs6DYg=
 			</data>
 		</dict>
 		<key>app/website/urls.py</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			+BHcBymtudgCWJE4mlx6FJWE7/DEm3cdk5L7krFiQMs=
+			rTGBGpDP90bIylVlNgoE2KcKn5/D/cMMUzsh+NSNoJA=
 			</data>
 		</dict>
 		<key>app/website/wsgi.py</key>
@@ -32969,7 +33068,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			IrhicGcd7ZsB4MO8TR+QJTA+pZWbOmZkFvagbFGiVzQ=
+			wSxXHh6dZ8NdUtuR0zmtvMswCVwGaAWSgRuUvQ7f5G8=
 			</data>
 		</dict>
 		<key>app_packages/asgiref-3.11.0.dist-info/WHEEL</key>
@@ -33319,7 +33418,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/LaFBvKTNgHExbLxX96s104s48aiK4ZOp9IuEi+LS2A=
+			2gHVrlYFnlJLP7QgsWY4xtIw+OgGoq9uXRc3rPpv55Y=
 			</data>
 		</dict>
 		<key>app_packages/dj_database_url-3.0.1.dist-info/REQUESTED</key>
@@ -33382,7 +33481,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4hNdCO+W07tNVIk1g2Jti+FrusqTl5tERzl/56sUz28=
+			Vg1Hwycm4M8nJyOJTETdBUuc8jiQ51S7bUCi+lX0M28=
 			</data>
 		</dict>
 		<key>app_packages/django-5.2.8.dist-info/REQUESTED</key>
@@ -59065,7 +59164,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			iqzCssohqZLFOr4tgLKA6k23/DUB6eGeHPhdCOPlJwc=
+			1xvwT4md9LpILNOR5Td8mlBnghP2OZ1rClFrbxXk1CM=
 			</data>
 		</dict>
 		<key>app_packages/django_colorfield-0.14.0.dist-info/REQUESTED</key>
@@ -59114,7 +59213,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			rCO0yqR5sLDZwniT9Ev8DkXvPayXqg8TgOJhG29KEyI=
+			k0z9aPgtjWy7jpfs9PZcBG5lqn18+g9Xq/Pp6b47D/8=
 			</data>
 		</dict>
 		<key>app_packages/django_cors_headers-4.9.0.dist-info/REQUESTED</key>
@@ -59163,7 +59262,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4fJkTKdvTQ3yLUMqz7LnulxuEpB1R/t6kHvSPWRfDfs=
+			iwcMFztIZjBmiGdL9TS3PIlmQZeWD5HMMKPa/JURm9s=
 			</data>
 		</dict>
 		<key>app_packages/djangorestframework-3.16.1.dist-info/REQUESTED</key>
@@ -61543,7 +61642,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			LUNmMzrUl3owyK/iPj3trhln/n4QLr5NAnAhWFxmBlw=
+			iL/UIbCG56e8n0Xy0jd6fXL7+G6NB9DtWIUysl9zVdM=
 			</data>
 		</dict>
 		<key>app_packages/fonttools-4.61.0.dist-info/WHEEL</key>
@@ -61606,7 +61705,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			He1OK8qE1X/OguYIwN0O9m60KLv83/OBB9L2EDv1rXQ=
+			CsaExcEkTxyWqKcPWoMzwXL70kpi+tnpQb+/dT3P9m4=
 			</data>
 		</dict>
 		<key>app_packages/pillow-12.0.0.dist-info/WHEEL</key>
@@ -63370,7 +63469,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			OmCrY9GBBwN9Cxx0eVj5r3hfIYNWcl5U3lkEyg+a6qo=
+			X6r2fnN87CkuZWVQbAfQNE5X8+g34UlQ5DodrLxpMiU=
 			</data>
 		</dict>
 		<key>app_packages/rubicon_objc-0.5.2.dist-info/WHEEL</key>
@@ -63419,7 +63518,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			DAWzc+TcKIFoQAUI+Po4B3DE47AVO5db32SQ8UI7D6M=
+			syE0qzNty+eDirss2E21/QR/mIhUbW3EVbFr9bjR5c8=
 			</data>
 		</dict>
 		<key>app_packages/sqlparse-0.5.4.dist-info/WHEEL</key>
@@ -63629,7 +63728,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KBw9t0bUYdbVYf5LWa/ceIkLHRnGGIzFELC50122zps=
+			diGoTvBgzcuyKx6qnpciNL1L3xDfOGqQRavkmyWblOU=
 			</data>
 		</dict>
 		<key>app_packages/std_nslog-1.0.3.dist-info/REQUESTED</key>
@@ -64147,7 +64246,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7CWbiiiAyXFDWgZvXkRoWvqvztwVccWjtOtNdAGPCVc=
+			eEmG/Pb8QFhr1iyFU/lGWZyGvOo0qoCK9oW1c7NpHlU=
 			</data>
 		</dict>
 		<key>app_packages/toga_core-0.5.2.dist-info/WHEEL</key>
@@ -64567,7 +64666,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			w9fwTifkGSjvZBO/1fYX9zHEqvQWWhT2O6UoZqzhYws=
+			rGxaSxzyHS6i9FyUkZ7CK+wMndVjC8sibWkxy3/BX+w=
 			</data>
 		</dict>
 		<key>app_packages/toga_ios-0.5.2.dist-info/REQUESTED</key>
@@ -64623,7 +64722,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pVxqnOOJLyPQYeHppoZ56fOngsSfGzwWKjzm/ifgIag=
+			I5WVFNqqhIHJGTHq6nsZh13cfftlpMFOQlHTupN9vQk=
 			</data>
 		</dict>
 		<key>app_packages/travertino-0.5.2.dist-info/WHEEL</key>
@@ -64770,7 +64869,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3l9nRkH8aevvwRwz6mW+vqNVbBQYdxwq7kjgJskDDfw=
+			BpxkcIIoiGe36MfCmIsfw/ycc9wh5tC8aWX4X5N2KhM=
 			</data>
 		</dict>
 		<key>app_packages/whitenoise-6.11.0.dist-info/REQUESTED</key>

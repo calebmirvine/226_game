@@ -8,9 +8,19 @@ This code specifies the model to work with and the fields to be converted to JSO
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = ['id', 'name', 'score', 'color']
+        fields = '__all__'
 
 class TileSerializer(serializers.ModelSerializer):
+    is_treasure = serializers.SerializerMethodField()
+    is_picked = serializers.SerializerMethodField()
+
     class Meta:
         model = Tile
-        fields = ['id', 'row', 'col', 'value']
+        fields = ['id', 'row', 'col', 'value', 'is_treasure', 'is_picked']
+        read_only_fields = ['id']
+
+    def get_is_treasure(self, obj):
+        return Tile.is_treasure(obj.value)
+
+    def get_is_picked(self, obj):
+        return obj.picked_by is not None

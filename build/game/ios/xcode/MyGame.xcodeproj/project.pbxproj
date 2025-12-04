@@ -46,7 +46,7 @@
 		610000000000000000000A00 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		610000000000000000100100 /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
 		610000000000000000100300 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		610000000000000000100400 /* MyGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyGame.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		610000000000000000100400 /* MyGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		610000000000000000100500 /* MyGame-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MyGame-Info.plist"; sourceTree = "<group>"; };
 		610000000000000000100600 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		610000000000000000100700 /* MyGame-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyGame-Prefix.pch"; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 				610000000000000000100800 /* Images.xcassets */,
 				60796EEC19190F4100A9926B /* Supporting Files */,
 			);
-			path = "MyGame";
+			path = MyGame;
 			sourceTree = "<group>";
 		};
 		60796EEC19190F4100A9926B /* Supporting Files */ = {
@@ -150,7 +150,7 @@
 			);
 			dependencies = (
 			);
-			name = "MyGame";
+			name = MyGame;
 			productName = game;
 			productReference = 610000000000000000100400 /* MyGame.app */;
 			productType = "com.apple.product-type.application";
@@ -378,6 +378,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				DEVELOPMENT_TEAM = 5GXY6J3HHB;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/Support\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -389,7 +390,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.game";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kale.game;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -400,6 +401,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				DEVELOPMENT_TEAM = 5GXY6J3HHB;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/Support\"";
@@ -412,7 +414,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.game";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kale.game;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

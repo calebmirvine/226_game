@@ -1,14 +1,10 @@
 {% extends "base/base.html" %}
 {% load static %}
-
 {% block title %}Game Board - 226 Game{% endblock %}
-
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'game-styles.css' %}">
 {% endblock %}
-
 {% block header %}226 Game{% endblock %}
-
 {% block content %}
             <!-- Game Form. Just surrond the whole game board with a form to allow for post requests -->
             <form action="{% url 'pick_action' %}" method="post" class="game-form">
@@ -17,13 +13,7 @@
                 <!-- Control Bar -->
                 <div class="control-bar">
                     <div>
-                        <label for="current-player">Player:</label>
-                        <select id="current-player" name="player_name">
-                            <!-- Player List in the select element -->
-                            {% for player in player_list %}
-                                <option value="{{ player.name }}" style="color: {{ player.color }}">{{ player.name }}</option>
-                            {% endfor %}
-                        </select>
+                        <label>You are Player: <span style="font-weight: bold; color">{{ current_player_name }}</span></label>
                     </div>
                     <!-- New Game Button -->
                     <a href="{% url 'reset_game' %}" class="btn">New Game</a>
@@ -37,7 +27,7 @@
                         <!-- Player List in the scoreboard panel -->
                         {% for player in player_list %}
                             <div class="score-item">
-                                <span style="color: {{ player.color }}">{{ player.name }}</span>
+                                <span style="font-weight: bold; color: {{ player.color }}">{{ player.name }}</span> 
                                 <span class="score-val">{{ player.score }}</span>
                             </div>
                         {% endfor %}
@@ -45,8 +35,12 @@
 
                     <!-- Board -->
                     <div class="panel board-panel">
-                        <div class="game-message">
-                            <p>{{ game_message }}</p>
+                        <div class="game-message {% if is_treasure %} gold {% endif %}">
+                            {% if waiting %}
+                                <p>Waiting for other player before a game can start...</p>
+                            {% else %}
+                                <p>{{ game_message }}</p>
+                            {% endif %}
                         </div>
                         <div class="board-wrapper">
                             <!-- Board Table -->
@@ -68,18 +62,33 @@
                                             <!-- Tile List -->
                                             {% for tile in row %}
                                                 <td>
+                                                    <!-- Formaction specify a different URL for form submission than the one defined in the parent-->
                                                     <button 
-                                                        type="submit" 
+                                                        type="submit"  
                                                         name="tile" 
                                                         value="{{ tile.row }},{{ tile.col }}" 
+                                                        formaction="{% url 'pick' current_player_name tile.row tile.col %}"
                                                         class="tile tile-btn 
-                                                        {% if tile.value == PICKED_TILE %}
+                                                        {% if tile.picked_by %}
                                                             picked
+                                                            {% if tile.value != PICKED_TILE %}
+                                                                treasure
+                                                            {% endif %}
                                                         {% endif %}"
                                                         {% if tile.picked_by %}
                                                             style="background: {{ tile.picked_by.color }}; opacity: 0.7; color: white;"
-                                                        {% endif %}>
-                                                        {{ tile.value }}
+                                                        {% endif %}
+                                                        {% if waiting %}disabled{% endif %}
+                                                    >
+                                                    {% if tile.picked_by %}
+                                                        {% if tile.value == PICKED_TILE %}
+                                                            {{ PICKED_TILE }}
+                                                        {% else %}
+                                                            {{ FOUND_TREASURE }}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {{ DEFAULT_TILE }}
+                                                    {% endif %}
                                                     </button>
                                                 </td>
                                             {% endfor %}
@@ -89,8 +98,12 @@
                             {% else %}
                             <!-- No Board Active -->
                                 <div class="text-center">
-                                    <p>No board active.</p>
-                                    <a href="{% url 'create' %}" class="btn mt-2">Create Board</a>
+                                    {% if waiting %}
+                                        <p>Waiting for players to join...</p>
+                                    {% else %}
+                                        <p>No board active.</p>
+                                        <a href="{% url 'create' %}" class="btn mt-2">Create Board</a>
+                                    {% endif %}
                                 </div>
                             {% endif %}
                         </div>
@@ -101,10 +114,10 @@
                         <h3>How to Play</h3>
                         <div class="instructions">
                             <ul>
-                                <li>Click tiles to find treasure.</li>
-                                <li>Numbers = Points.</li>
-                                <li>{{ PICKED_TILE }} = Already checked.</li>
-                                <li>High score wins!</li>
+                                <li>Click tiles {{TREASURE_TILE}} to find treasure. </li>
+                                <li><b>{{FOUND_TREASURE}}</b> = Treasure.</li>
+                                <li><b>{{PICKED_TILE}}</b> = Already checked.</li>
+                                <li><b>Numbers</b> = Points.</li>
                             </ul>
                         </div>
                     </div>

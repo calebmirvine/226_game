@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'game.apps.GameConfig',
+    #Custom Color Field
     'colorfield',
 ]
 
@@ -61,6 +62,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'website.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -71,6 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Game constants context processor to not have to import it in each template
+                'game.constants.context_processors.game_constants',
             ],
         },
     },
