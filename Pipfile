@@ -12,6 +12,9 @@ django = "*"
 briefcase = "*"
 toga = "*"
 channels = "*"
+django-colorfield = "*"
+whitenoise = "*"
+dj-database-url = "*"
 
 [dev-packages]
 flaky = "*"
