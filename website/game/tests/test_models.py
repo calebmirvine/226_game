@@ -53,6 +53,9 @@ class PlayerModelTests(TestCase):
         # Create Player 1
         self.client.post('/game/lobby', {'player_number': 1, 'color': '#00FF00'})
         
+        # Clear cookie to simulate a new user trying to take the same slot
+        self.client.cookies.clear()
+
         # Try to create Player 1 again
         response = self.client.post('/game/lobby', {'player_number': 1, 'color': '#FF0000'})
         
