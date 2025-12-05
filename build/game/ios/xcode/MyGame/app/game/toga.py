@@ -30,20 +30,12 @@ class Game(toga.App):
         It sets up the Django environment, applies migrations, and starts the server.
         """
         try:
+            self.paths.data.mkdir(exist_ok=True)
+            db_path = self.paths.data / "db.sqlite3"
+            os.environ["DJANGO_DB_PATH"] = str(db_path)
+
             os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings")
             django.setup(set_prefix=False)
-
-        # self.paths.data.mkdir(exist_ok=True)
-        # user_db = self.paths.data / "db.sqlite3"
-        # if user_db.exists():
-        #     print("User already has a database.")
-        # else:
-        #     template_db = self.paths.app / "resources/db.sqlite3"
-        #     if template_db.exists():
-        #         print("Copying initial database...")
-        #         shutil.copy(template_db, user_db)
-        #     else:
-        #         print("No initial database.")
 
 
             print("Applying database migrations...")

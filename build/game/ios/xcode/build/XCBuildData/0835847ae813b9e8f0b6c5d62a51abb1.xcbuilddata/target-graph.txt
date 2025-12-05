@@ -1,2 +1,0 @@
-Target dependency graph (1 target)
-Target 'MyGame' in project 'MyGame' (no dependencies)
