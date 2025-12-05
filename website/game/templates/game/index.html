@@ -19,7 +19,12 @@
                 <input type="color" name="color" id="color" value="{{ form.color.value }}">
             </div>
 
-            <div class="player-slots">
+            <div id="player-slots" 
+                 class="player-slots"
+                 hx-get="." 
+                 hx-trigger="every 7s" 
+                 hx-select="#player-slots" 
+                 hx-swap="outerHTML">
                 <!-- Player 1 Slot -->
                 <div class="player-slot">
                     <h3>Player 1</h3>
@@ -60,7 +65,12 @@
 
     </div>
 
-    <div class="mt-5 text-center">
+    <div id="start-game-container" 
+         class="mt-5 text-center"
+         hx-get="." 
+         hx-trigger="every 7s" 
+         hx-select="#start-game-container" 
+         hx-swap="outerHTML">
         {% if players.count >= MIN_PLAYERS %}
             <a href="{% url 'game' %}" class="btn" style="font-size: 1.5rem; padding: 1rem 3rem; border-radius: 50px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">Start Game</a>
         {% else %}
